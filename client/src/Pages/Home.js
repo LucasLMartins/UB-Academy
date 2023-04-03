@@ -13,16 +13,11 @@ function Home() {
     //     })
     // }, [])
 
-    // console.log(parametros)
-
-    
-
 
     return (
         <div className="sei la">
             <h1>textooo</h1>
             <h2>teste</h2>
-
         </div>
     )
 }
