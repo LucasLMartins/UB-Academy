@@ -1,0 +1,88 @@
+footer{
+    left: 0;
+    right: 0;
+    height: auto;
+    width: 100%;
+    padding-top: 40px;
+    z-index: 35;
+    background-color: #003F88;
+    color: white;
+}
+
+.footer-content{
+    margin: 0 12%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.footer-section-1{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-direction: row;
+}
+
+.footer-section-1-left{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.footer-section-1-right{
+    display: inline-block;
+    width: 50%;
+}
+
+.footer-grid{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 5%;
+}
+
+.pages-list{
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.about-list{
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-list{
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.footer-items-title{
+    font-size: 20px;
+    margin-bottom: 25px;
+    display: inline-block;
+}
+
+.footer-items{
+    font-size: 16px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+.footer-links{
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+
+.footer-links:hover{
+    text-decoration: underline;
+}
+
+.footer-section-2{
+    border-top: 1px rgba(255, 255, 255, 0.300) solid;
+}
+
+.company-rights{
+    text-align: center;
+    padding: 30px 0;
+}

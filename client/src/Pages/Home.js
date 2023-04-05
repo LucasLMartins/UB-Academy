@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import '../styles/home.css'
+import '../styles/home.css';
+import Header from "../Components/Header"
+import Footer from "../Components/Footer";
 // import api from '../api.js'
 
 function Home() {
@@ -15,10 +17,15 @@ function Home() {
 
 
     return (
-        <div className="sei la">
-            <h1>textooo</h1>
-            <h2>teste</h2>
+        <div className="page">
+            <Header />
+            <div className="page-container">
+                <h1>textooo</h1>
+                <h2>teste</h2>
+            </div>
+            <Footer />
         </div>
+
     )
 }
 
