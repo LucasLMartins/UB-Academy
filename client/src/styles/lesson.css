@@ -1,0 +1,65 @@
+.les-page-container{
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-width: 100%;
+}
+
+.les-left-div{
+    display: flex;
+    flex-direction: column;
+    width: 77%;
+}
+
+.les-left-top-div{
+    background-color: rgb(10, 10, 10);
+    color: white;
+    padding: 20px;
+}
+
+.les-video-div{
+    position: relative;
+    width: 100%;
+}
+
+.lesson-video{
+    width: 100%;
+}
+
+
+
+
+
+
+.les-right-div{
+    display: flex;
+    flex-direction: column;
+    width: 23%;
+    height: 100%;
+    position: fixed;
+    right: 0;
+    color: white;
+}
+
+.les-course-title{
+    background-color: rgb(102, 102, 102) ;
+    padding: 10px;
+    font-size: 20px;
+    height: 5%;
+    display: flex;
+    align-items: center;
+}
+
+.les-lessons{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(59, 59, 59);
+    height: 95%;
+}
+
+.les-lesson-container{
+    padding: 15px;
+    font-size: 20px;
+    border-bottom: 2px solid rgb(48, 48, 48);
+}

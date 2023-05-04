@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom'
 import Home from './Pages/Home'
 import Courses from './Pages/Courses'
-import Suporte from './Pages/Suporte'
+import Lesson from './Pages/Lesson'
 
 import api from './api.js'
 
@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}/>
           <Route path="/cursos" element={<Courses />}/>
-          <Route path="/suporte" element={<Suporte />}/>
+          <Route path="/aula" element={<Lesson />}/>
         </Routes>
       </Router>
 
