@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Header, Text, Avatar, Anchor, Grid } from '@mantine/core';
+import { Header, Text, Anchor, Grid } from '@mantine/core';
 import Logo from '../Pages/Images/ublogoWhite.png';
+import { IconUserCircle } from '@tabler/icons-react';
 
 export default function UbHeader() {
   return (
@@ -32,8 +33,8 @@ export default function UbHeader() {
             Suporte
           </Text>
         </Anchor>
-        <Grid style={{marginTop: 25, marginLeft: 300}}>
-          <Avatar radius="xl" />
+        <Grid style={{marginTop: 10, marginLeft: 300}}>
+          <IconUserCircle  size={70} style={{ color: "white"}} />
         </Grid>
       </Grid>
     </Header>
