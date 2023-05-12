@@ -113,8 +113,76 @@ ul{
     margin-top: 10px;
 }
 
+
+.cs-filter-price-content{
+    display: none;
+    text-align: center;
+}
+
+.filter-by-price-min{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.filter-by-price-max{
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    justify-content: center;
+}
+
+.filter-by-price-from{
+    width: 20%;
+    min-width: 20%;
+    display: inline-block;
+    font-size: 20px;
+    text-align: left;
+}
+
+#range-min{
+    width: 60%;
+    min-width: 60%;
+}
+
+#range-max{
+    width: 60%;
+    min-width: 60%;
+}
+
+.input-from-price{
+    border: 2px solid #003F88;
+    width: 150px;
+    font-size: 16px;
+    padding: 4px 10px;
+    border-radius: 10px;
+    outline: none;
+}
+
+.filter-by-price-button-div{
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.filter-by-price-button{
+    font-size: 20px;
+    border-radius: 10px;
+    border: 0px;
+    background-color: #2a7de1;
+    color: white;
+    padding: 4px 80px;
+}
+
+
+
+
+
+
 .cs-clear-filters{
-    margin-top: 40px;
+    margin-top: 80px;
     text-align: center;
     cursor: pointer;
 }
@@ -140,6 +208,8 @@ ul{
     font-size: 25px;
     box-sizing: border-box;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    outline: none;
+    
 }
 
 .cs-grid-div{
@@ -152,15 +222,69 @@ ul{
 }
 
 .cs-grid-item-container{
-    background-color: #003F88;
-    color: white;
-    font-size: 20px;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 0px 0px 0px 10px;
+    height: 380px;
     width: 100%;
     min-width: 100%;
     max-width: 100%;
-    height: 350px;
+    background-color: #003F88;
+    color: white;
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+    overflow: hidden;
+}
+
+.cs-img-container{
+    border-radius: 0px 0px 10px 10px;
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    min-width: 100%;
+    max-width: 100%;
+    height: 45%;
+    max-height: 45%;
+    min-height: 45%;
+}
+
+.cs-item-img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: 0.2s ease-out 50ms;
+}
+
+.cs-item-name-container{
+    font-size: 26px;
+    line-height: normal;
+    text-align: justify;
+    height: 40%;
+    min-height: 40%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.cs-item-price-container{
+    height: 15%;
+    min-height: 15%;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.cs-item-price-container-inner{
+    width: 45%;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 0 0 10px 10px;
+    padding: 7px 0;
+    background-color: white;
+    color: #003F88;
+    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 5px;
 }
