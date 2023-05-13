@@ -1,0 +1,222 @@
+.admin-main-div{
+    margin: 3vh 20vh;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.mt{
+    margin-top: 150px;
+}
+
+.admin-form{
+    margin-top: 5vh;
+}
+
+#adminUser{
+    width: 300px;
+    font-size: 20px;
+    padding: 10px 15px;
+    border: #003F88 2px solid;
+    border-radius: 3px;
+}
+
+#adminPass{
+    margin-top: 2vh;
+    width: 300px;
+    font-size: 20px;
+    padding: 10px 15px;
+    border: #003F88 2px solid;
+    border-radius: 3px;
+}
+
+.adminButton{
+    color: white;
+    margin-top: 2vh;
+    width: 333px;
+    font-size: 20px;
+    padding: 10px 0;
+    background-color: #003F88;
+    border-width: 0px;
+    border-radius: 3px;
+    display: block;
+}
+
+.divAdminButtons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin-login-header{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-return-home{
+    display: inline-block;
+    cursor: pointer;
+}
+
+.admin-logout{
+    display: inline-block;
+}
+
+.admin-logout-button{
+    border-width: 0;
+    border-radius: 5px;
+    padding: 10px 10px;
+    background-color: #003F88;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.home-icon-div{
+    border: 2px solid #003F88;
+    color: white;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 0 3px;
+    background-color: #003F88;
+}
+
+.admin-paper{
+    background-color: #f2f2f2;
+    margin-top: 2vh;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: 2px solid;
+    border-color: #003F88;
+}
+
+.admin-search-input{
+    width: 70%;
+    border: 2px solid rgb(189, 189, 189);
+    border-radius: 20px;
+    padding: 5px 20px;
+    font-size: 18px;
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    outline: none;
+}
+
+/* crud produtos */
+/* crud produtos */
+/* crud produtos */
+
+.admin-header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4vh;
+}
+
+
+.admin-course-title{
+    font-size: 30px;
+    font-weight: bold;
+    color: #003F88;
+}
+
+.admin-course-create-button{
+    font-size: 18px;
+    background-color: #003F88;
+    padding: 10px 15px;
+    border-width: 0;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-course-create-button:hover{
+    background-color: #0077ff;
+}
+
+.admin-select{
+    display: inline-block;
+    border: 2px solid #003F88;
+    border-radius: 5px;
+    margin-right: 20px;
+    font-weight: bold;
+    color: rgb(51, 51, 51);
+    cursor: pointer;
+}
+
+.admin-select:hover{
+    background-color: #ebeef3;
+}
+
+.admin-select > p {
+    margin: 0;
+    padding: 15px 20px;
+}
+
+
+/* table pedidos */
+/* table pedidos */
+/* table pedidos */
+
+
+.crud-id-orders{
+    width: 10%;
+}
+
+.crud-cpf-orders{
+    width: 20%;
+}
+
+.crud-nameProduct-orders{
+    width: 30%;
+}
+
+.crud-product-orders{
+    width: 10%;
+}
+
+.crud-qnt-orders{
+    width: 10%;
+}
+
+.crud-date-orders{
+    width: 20%;
+}
+
+
+/* table agendamento */
+/* table agendamento */
+/* table agendamento */
+
+.crud-nome-schedules{
+    width: 15%;
+}
+
+.crud-cpf-schedules{
+    width: 10%;
+}
+
+.crud-fone-schedules{
+    width: 15%;
+}
+
+.crud-tipo-schedules{
+    width: 10%;
+}
+
+.crud-hour-schedules{
+    width: 10%;
+}
+
+.crud-data-schedules{
+    width: 15%;
+}
+
+.crud-specie-schedules{
+    width: 10%;
+}
+
+.crud-animal-schedules{
+    width: 15%;
+}

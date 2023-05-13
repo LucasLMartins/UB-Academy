@@ -5,6 +5,7 @@ import Courses from './Pages/Courses'
 import Lesson from './Pages/Lesson'
 import Suporte from './Pages/Suporte'
 import Perfil from './Pages/Perfil'
+import Admin from './Pages/Admin'
 import api from './api.js'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/aula" element={<Lesson />}/>
           <Route path="/suporte" element={<Suporte />}/>
           <Route path="/perfil" element={<Perfil />}/>
+          <Route path='/admin' element={<Admin />}/>
 
         </Routes>
       </Router>
