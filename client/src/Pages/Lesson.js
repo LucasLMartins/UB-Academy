@@ -4,9 +4,21 @@ import '../styles/lesson.css';
 import Header from "../Components/Header"
 import Footer from "../Components/Footer";
 import ReactPlayer from 'react-player'
-// import api from '../api.js'
+import api from '../api.js'
 
 function Lesson() {
+
+    const [lessonParams, setLessonParams] = useState([])
+
+
+    useEffect(() => {
+        api.get('/aula').then(res => {
+            let parametrosAula = (res.data[0].aula[0])
+            setLessonParams(parametrosAula)
+            // let parametrosVendas = (res.data[0].agendamentos)
+            // setSalesParams(parametrosVendas)
+        })
+    }, [])
 
 
 
@@ -30,12 +42,12 @@ function Lesson() {
                             className=''
                             width="100%"
                             height="100%"
-                            url= 'https://www.youtube.com/watch?v=CQmX6GcpyvE&list=PLUae-M0w5U8dpoTgg15G2o2ypnCGoWXAU&ab_channel=Prof.FabioE.Santos'
+                            url= {'http://localhost:5000/files/zap.mp4'}
                             controls = {true}
                         />
                     </div>
+                    
                     <div className="les-bottom-div">
-
                     </div>
                 </div>
 

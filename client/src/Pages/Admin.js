@@ -3,14 +3,21 @@ import '../styles/admin.css';
 import api from '../api.js'
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import React, {Component} from "react";
 
 function Admin() {
 
+    // Variáveis de login e info de admin
     const [login, setLogin] = useState(localStorage.getItem('adminLogin'))
     const [info, setInfo] = useState(localStorage.getItem('adminInfo'))
     const [adminLogin, setAdminLogin] = useState({ user: '', password: '' })
     let adminInfo = JSON.parse(info);
 
+    // Variáveis para upload de arquivo
+    const [file, setFile] = useState()
+    const [fileName, setFileName] = useState("");
+
+    // Variáveis restantes
     const [courseParams, setCourseParams] = useState([])
     //const [salesParams, setSalesParams] = useState([])
     const [itemInsertState, setItemInsertState] = useState({ nome: '', img: '', desc: '', preco: '' })
@@ -25,12 +32,15 @@ function Admin() {
 
     useEffect(() => {
         api.get('/admin').then(res => {
-            let parametrosCursos = (res.data[0].cursos)
+            let parametrosCursos = (res.data[0].cursos[0])
             setCourseParams(parametrosCursos)
             // let parametrosVendas = (res.data[0].agendamentos)
             // setSalesParams(parametrosVendas)
         })
     }, [])
+
+    
+
 
     function loginForm() {
         if (adminLogin.user !== '' && adminLogin.password !== '') {
@@ -108,6 +118,26 @@ function Admin() {
 
     function deleteItem() {
 
+    }
+
+    const saveFile = (e) => {
+        setFile(e.target.files[0])
+        setFileName(e.target.files[0].name)
+    }
+
+    const uploadFile = async (e) => {
+        const formData = new FormData()
+        formData.append("file", file)
+        formData.append("fileName", fileName)
+        try {
+            const res = await axios.post(
+                "http://localhost:5000/admin/videoUpload",
+                formData
+            )
+            console.log(res)
+        } catch (ex) {
+            console.log(ex)
+        }
     }
 
 
@@ -252,7 +282,12 @@ function Admin() {
                     <div></div>
                 </div>
                 <div className="">
-                    <h1>conteudo</h1>
+                    <h1>upload de arquivos </h1>
+                    
+                    <input type="file" name="file" onChange={saveFile}></input>
+                    <button onClick={uploadFile}>Enviar</button>
+                    
+
                 </div>
             </div>
         </div>
