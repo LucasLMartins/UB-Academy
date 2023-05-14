@@ -154,6 +154,134 @@
     padding: 15px 20px;
 }
 
+/* table cursos */
+/* table cursos */
+/* table cursos */
+
+.insert-new-modal{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+}
+
+.new-modal-container{
+    width: 50vh;
+    margin-bottom: 5vh;
+    background-color: #f2f2f2;
+    padding: 5vh;
+    color: black;
+    border: 2px solid;
+    border-radius: 10px;
+    border-color: #003F88;
+}
+
+.insert-new-modal-top{
+    text-align: center;
+}
+
+.create-new-course{
+    display: inline-block;
+    margin: 6px 0 5vh 0;
+    font-size: 28px;
+    padding-left: 35px;
+}
+
+.close-insert-new-modal{
+    float: right;
+    font-size: 18px;
+    background-color: #003F88;
+    padding: 10px 15px;
+    border-width: 0;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-insert-new-modal:hover{
+    background-color: #0077ff;
+}
+
+.input-new-modal{
+    margin-top: 3px;
+    margin-bottom: 20px;
+    border: white 2px solid;
+    border-radius: 3px;
+    border-color: #003F88;
+    font-size: 18px;
+}
+
+.input-new-modal-category{
+    width: 227px;
+    margin-top: 3px;
+    margin-bottom: 20px;
+    border: white 2px solid;
+    border-radius: 3px;
+    border-color: #003F88;
+    font-size: 18px;
+}
+
+.imgInput{
+    height: 130px;
+    width: 227px;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+    position: relative;
+    bottom: 130px;
+    margin-bottom: -130px;
+}
+
+.choose-image-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.choose-image-button{
+    height: 130px;
+    width: 227px;
+    border: 2px black dashed;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../../public/dropfiles.png);
+    background-repeat: no-repeat;
+    background-size: 50% 50%;
+    background-position: center;
+    background-color: rgb(255, 255, 255);
+}
+
+.choose-image-image{
+    height: 100%;
+    width: 100%;
+    object-fit:cover;
+}
+
+.admin-create-button{
+    font-size: 18px;
+    background-color: #003F88;
+    padding: 10px 40px;
+    border-width: 0;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-create-button:hover{
+    background-color: #0077ff;
+}
+
 
 /* table pedidos */
 /* table pedidos */

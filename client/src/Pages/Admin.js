@@ -3,7 +3,7 @@ import '../styles/admin.css';
 import api from '../api.js'
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import React, {Component} from "react";
+import React from "react";
 
 function Admin() {
 
@@ -14,15 +14,20 @@ function Admin() {
     let adminInfo = JSON.parse(info);
 
     // Variáveis para upload de arquivo
-    const [file, setFile] = useState()
-    const [fileName, setFileName] = useState("");
+    const [videoFile, setVideoFile] = useState()
+    const [videoFileName, setVideoFileName] = useState("")
+    const [imageFile, setImageFile] = useState()
+    const [imageFileName, setImageFileName] = useState("")
+    const [imageConfirmFile, setimageConfirmFile] = useState(null)
 
-    // Variáveis restantes
+    // Variáveis parametros cursos e vendas
     const [courseParams, setCourseParams] = useState([])
-    //const [salesParams, setSalesParams] = useState([])
-    const [itemInsertState, setItemInsertState] = useState({ nome: '', img: '', desc: '', preco: '' })
-    const [itemEditState, setItemEditState] = useState({ itemId: '', nome: '', img: '', desc: '', preco: '' })
-    const [itemDeleteState, setItemDeleteState] = useState({ itemId: '' })
+    const [salesParams, setSalesParams] = useState([])
+
+    // restante
+    const [courseInsertState, setCourseInsertState] = useState({ nome: '', categoria: 'Pg', preco: '', descricao: '', img: '', skills: '' })
+    //const [itemEditState, setItemEditState] = useState({ itemId: '', nome: '', img: '', desc: '', preco: '' })
+    //const [itemDeleteState, setItemDeleteState] = useState({ itemId: '' })
 
     const navigate = useNavigate();
 
@@ -32,14 +37,12 @@ function Admin() {
 
     useEffect(() => {
         api.get('/admin').then(res => {
-            let parametrosCursos = (res.data[0].cursos[0])
+            let parametrosCursos = (res.data[0].cursos)
+            let parametrosVendas = (res.data[0].vendas)
             setCourseParams(parametrosCursos)
-            // let parametrosVendas = (res.data[0].agendamentos)
-            // setSalesParams(parametrosVendas)
+            setSalesParams(parametrosVendas)
         })
     }, [])
-
-    
 
 
     function loginForm() {
@@ -54,7 +57,7 @@ function Admin() {
                 .then((res) => res.json())
                 .then((data) => {
 
-                    if (data[0].resultado == 'true') {
+                    if (data[0].resultado === 'true') {
                         let adminInfo = data[0].adminInfo[0]
                         localStorage.setItem('adminInfo', JSON.stringify(adminInfo))
                         localStorage.setItem('adminLogin', 'true')
@@ -120,15 +123,15 @@ function Admin() {
 
     }
 
-    const saveFile = (e) => {
-        setFile(e.target.files[0])
-        setFileName(e.target.files[0].name)
+    const saveVideoFile = (e) => {
+        setVideoFile(e.target.files[0])
+        setVideoFileName(e.target.files[0].name)
     }
 
-    const uploadFile = async (e) => {
+    const uploadVideoFile = async (e) => {
         const formData = new FormData()
-        formData.append("file", file)
-        formData.append("fileName", fileName)
+        formData.append("file", videoFile)
+        formData.append("fileName", videoFileName)
         try {
             const res = await axios.post(
                 "http://localhost:5000/admin/videoUpload",
@@ -137,6 +140,50 @@ function Admin() {
             console.log(res)
         } catch (ex) {
             console.log(ex)
+        }
+    }
+
+    const saveImageFile = (e) => {
+        setImageFile(e.target.files[0])
+        setImageFileName(e.target.files[0].name)
+        setCourseInsertState({ ...courseInsertState, img: e.target.files[0].name})
+        document.getElementById('choose-image-button').style.backgroundImage = 'url('+ URL.createObjectURL(e.target.files[0]) +')'
+        document.getElementById('choose-image-button').style.backgroundSize = '100% 100%'
+    }
+
+    const insertCourse = async (e) => {
+        if (courseInsertState.nome !== '' && courseInsertState.categoria !== '' && courseInsertState.preco !== '' && courseInsertState.descricao !== '' && courseInsertState.img !== '' && courseInsertState.skills !== '') {
+            // upload de imagem
+            const formData = new FormData()
+            formData.append("file", imageFile)
+            formData.append("fileName", imageFileName)
+            try {
+                const res = await axios.post(
+                    "http://localhost:5000/admin/imageUpload",
+                    formData
+                )
+                console.log(res)
+            } catch (ex) {
+                console.log(ex)
+            }
+            
+            // insert no mysql
+            fetch('http://localhost:5000/admin/insertCourse', {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(courseInsertState)
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log(result)
+                })
+
+            navigate(0)
+        }
+        else {
+            window.alert('Preencha todos os campos!')
         }
     }
 
@@ -174,85 +221,79 @@ function Admin() {
                 </div>
                 <div className="admin-crud-container">
                     <div className="cs-grid-div">
-
-                        <div className="cs-grid-item-container">
-                            <div className="cs-img-container">
-                                <img src={require('./Images/CostumerSupport.jpg')} className="cs-item-img"></img>
-                            </div>
-                            <div className="cs-item-name-container">
-                                <p className="cs-item-name">Curso de JavaScript e TypeScript do básico ao avançado</p>
-                            </div>
-                            <div className="cs-item-price-container">
-                                <div className="cs-item-price-container-inner">
-                                    <p className="cs-item-price">R$125,00</p>
+                        {
+                            courseParams.map((item, i) => (
+                                <div key={i} className="cs-grid-item-container">
+                                    <div className="cs-img-container">
+                                        <img src={'http://localhost:5000/images/' + item.imagemCurso} className="cs-item-img"></img>
+                                    </div>
+                                    <div className="cs-item-name-container">
+                                        <p className="cs-item-name">{item.nomeCurso}</p>
+                                    </div>
+                                    <div className="cs-item-price-container">
+                                        <div className="cs-item-price-container-inner">
+                                            <p className="cs-item-price">R${item.precoCurso},00</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            ))
+                        }
+                    </div>
+                </div>
+
+                <div id="new-modal" className="insert-new-modal">
+                    <div className="new-modal-container">
+                        <div className="insert-new-modal-top">
+                            <p className="create-new-course">Criar novo curso</p>
+                            <span className="close-insert-new-modal" onClick={() => closeCreateModal()}>X</span>
                         </div>
 
-                        <div className="cs-grid-item-container">
-                            <div className="cs-img-container">
-                                <img src={require('./Images/CostumerSupport.jpg')} className="cs-item-img"></img>
+                        <div>
+                            <label>Imagem do curso</label>
+                            <br></br>
+                            <div className="choose-image-div">
+                                <div id="choose-image-button" className="choose-image-button"></div>
+                                <input type="file" name="file" className="imgInput" accept="image/png, image/jpeg, image/jpg" onChange={saveImageFile}></input>
                             </div>
-                            <div className="cs-item-name-container">
-                                <p className="cs-item-name">Curso de JavaScript e TypeScript do básico ao avançado</p>
-                            </div>
-                            <div className="cs-item-price-container">
-                                <div className="cs-item-price-container-inner">
-                                    <p className="cs-item-price">R$125,00</p>
-                                </div>
-                            </div>
+                            <br></br>
+                            <label>Nome do curso</label>
+                            <br></br>
+                            <input onChange={e => setCourseInsertState({ ...courseInsertState, nome: e.target.value})} type="text" required name="nomeCurso" id="nomeCurso" className="input-new-modal"></input>
+                            <br></br>
+                            <label>Categoria</label>
+                            <br></br>
+                            <select onChange={e => setCourseInsertState({ ...courseInsertState, categoria: e.target.value})} name="categoriaCurso" id="categoriaCurso" className="input-new-modal-category">
+                                <option value='programacao' selected>Programação</option>
+                                <option value='dados'>Dados</option>
+                                <option value='seguranca'>Segurança</option>
+                                <option value='qualidade'>Qualidade</option>
+                                <option value='redes'>Redes</option>
+                                <option value='ia'>Inteligência Artificial</option>
+                            </select>
+                            <br></br>
+                            <label>Preço</label>
+                            <br></br>
+                            <input onChange={e => setCourseInsertState({ ...courseInsertState, preco: e.target.value})} type="number" required name="precoCurso" id="precoCurso" className="input-new-modal"></input>
+                            <br></br>
+                            <label>Descrição</label>
+                            <br></br>
+                            <input onChange={e => setCourseInsertState({ ...courseInsertState, descricao: e.target.value})} type="text" required name="descricaoCurso" id="descricaoCurso" className="input-new-modal"></input>
+                            <br></br>
+                            <label>Skills</label>
+                            <br></br>
+                            <input onChange={e => setCourseInsertState({ ...courseInsertState, skills: e.target.value})} type="text" required name="skillsCurso" id="skillsCurso" className="input-new-modal"></input>
+                            <br></br>
+                            <button className="admin-create-button" onClick={insertCourse}>Criar</button>
+                            
+                            
                         </div>
-
-                        <div className="cs-grid-item-container">
-                            <div className="cs-img-container">
-                                <img src={require('./Images/CostumerSupport.jpg')} className="cs-item-img"></img>
-                            </div>
-                            <div className="cs-item-name-container">
-                                <p className="cs-item-name">Curso de JavaScript e TypeScript do básico ao avançado</p>
-                            </div>
-                            <div className="cs-item-price-container">
-                                <div className="cs-item-price-container-inner">
-                                    <p className="cs-item-price">R$125,00</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="cs-grid-item-container">
-                            <div className="cs-img-container">
-                                <img src={require('./Images/CostumerSupport.jpg')} className="cs-item-img"></img>
-                            </div>
-                            <div className="cs-item-name-container">
-                                <p className="cs-item-name">Curso de JavaScript e TypeScript do básico ao avançado</p>
-                            </div>
-                            <div className="cs-item-price-container">
-                                <div className="cs-item-price-container-inner">
-                                    <p className="cs-item-price">R$125,00</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="cs-grid-item-container">
-                            <div className="cs-img-container">
-                                <img src={require('./Images/CostumerSupport.jpg')} className="cs-item-img"></img>
-                            </div>
-                            <div className="cs-item-name-container">
-                                <p className="cs-item-name">Curso de JavaScript e TypeScript do básico ao avançado</p>
-                            </div>
-                            <div className="cs-item-price-container">
-                                <div className="cs-item-price-container-inner">
-                                    <p className="cs-item-price">R$125,00</p>
-                                </div>
-                            </div>
-                        </div>
-
-
                     </div>
                 </div>
             </div>
         </div>
     )
 
-    if (login === 'true' && page == 'sales') return (
+    if (login === 'true' && page === 'sales') return (
         <div className="admin-main-div">
             <div className="admin-login-header">
                 <div className="admin-return-home">
@@ -282,11 +323,19 @@ function Admin() {
                     <div></div>
                 </div>
                 <div className="">
-                    <h1>upload de arquivos </h1>
-                    
-                    <input type="file" name="file" onChange={saveFile}></input>
-                    <button onClick={uploadFile}>Enviar</button>
-                    
+                    <h1>upload de videos </h1>
+                    <br></br>
+                    <input type="file" name="file" onChange={saveVideoFile}></input>
+                    <button onClick={uploadVideoFile}>Enviar</button>
+
+                    <br></br>
+                    <br></br>
+                    <br></br>
+
+                    <h1>upload de imagens</h1>
+                    <br></br>
+                    <input type="file" name="file" onChange={saveImageFile}></input>
+                    <button onClick={insertCourse}>Enviar</button>
 
                 </div>
             </div>
