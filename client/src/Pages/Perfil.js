@@ -9,7 +9,7 @@ function Perfil() {
   return (
     <div className="page">
         <UbHeader />
-        <Grid justify="center">
+        <Grid justify="center" style={{margin: '0 0 0 0'}}>
             <div className="cs-page-container3">
                 <Grid container style={{backgroundColor: '#003F88', borderRadius: '10px', marginTop: '5%', marginBottom: '4%', width: '100%'}} >
                     <IconUserCircle size={150} style={{ color: "white", marginLeft: '5%', marginRight: '3%'}} />

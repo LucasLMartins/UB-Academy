@@ -11,7 +11,7 @@ ul{
 }
 
 .cs-page-container{
-    margin: 50px;
+    margin: 150px 50px 50px 50px;
     display: flex;
     flex-direction: column;
     font-family: Arial, Helvetica, sans-serif;
@@ -289,4 +289,10 @@ ul{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+.sup-map{
+    border: 0;
+    border-radius: 25px;
 }

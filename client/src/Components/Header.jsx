@@ -23,7 +23,7 @@ export default function UbHeader() {
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Login" centered >
+      <Modal opened={opened} onClose={close} title="Login" centered xOffset={0}>
         <form onSubmit={form.onSubmit((values) => console.log(values))}>
           <TextInput
             withAsterisk
@@ -46,24 +46,24 @@ export default function UbHeader() {
           />
 
           <Group position="right" mt="md">
-            <Button style={{backgroundColor: '#003F88'}} type="submit">Confirmar</Button>
+            <Button style={{ backgroundColor: '#003F88' }} type="submit">Confirmar</Button>
           </Group>
         </form>
       </Modal>
 
       <Header
-        style={{ backgroundColor: '#003F88'}}
-        shadow="sm"  
-        height={110}
+        style={{ backgroundColor: '#003F88', position: 'fixed', border: '0', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
+        shadow="sm"
+        height={100}
       >
         <Grid
-        style={{paddingTop: 15 }}       
-        container
-        spacing={0}
-        justify="center">
-        <Grid style={{marginTop: 4, marginRight: 300}}>
-          <img src={Logo} className='footer-img' height='80px' width='100px'></img>
-        </Grid>
+          style={{ paddingTop: 15, margin: '-10px 0 0 0'}}
+          container
+          spacing={0}
+          justify="center">
+          <Grid style={{ marginTop: 4, marginRight: 300 }}>
+            <img src={Logo} className='footer-img' height='80px' width='100px'></img>
+          </Grid>
           <Anchor href="/" style={{ marginRight: 25 }}>
             <Text color={'white'} size={50} weight={700}>
               Home
@@ -79,9 +79,10 @@ export default function UbHeader() {
               Suporte
             </Text>
           </Anchor>
-            <Grid style={{marginTop: 10, marginLeft: 300}}>
-              <IconUserCircle onClick={open} size={70} style={{ color: "white"}} />
-            </Grid>
+          <Grid style={{ marginTop: 10, marginLeft: 300 }}>
+
+            <IconUserCircle onClick={open} size={70} style={{ color: "white" }} />
+          </Grid>
         </Grid>
       </Header>
     </>
