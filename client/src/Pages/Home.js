@@ -5,18 +5,18 @@ import UbHeader from "../Components/Header"
 import Footer from "../Components/Footer";
 import Logo from '../Pages/Images/UBlogo_alpha.png';
 import Banner from '../Pages/Images/Banner.png';
-// import api from '../api.js'
+import api from '../api.js'
 
 function Home() {
 
-    // const [parametros, setParametros] = useState([])
+    const [courseParams, setCourseParams] = useState([])
 
-    // useEffect(() => {
-    //     api.get('/home').then(res => {
-    //         let teste = (res.data)
-    //         setParametros(teste)
-    //     })
-    // }, [])
+    useEffect(() => {
+        api.get('/cursos').then(res => {
+            let parametrosCursos = (res.data[0].cursos)
+            setCourseParams(parametrosCursos.slice(0, 3))
+        })
+    }, [])
 
 
     return (
@@ -54,21 +54,20 @@ function Home() {
                     </Grid>
 
                     <Grid container justify='center' align='center' style={{ marginBottom: '125px', width: '100%' }}>
-                        <Grid justify='center' style={{ marginRight: '6%', backgroundColor: '#003F88', height: '200px', width: '250px', borderRadius: '25px' }}>
-                            <Text color={'white'} size={30} weight={500} style={{ margin: 'auto' }}>
-                                Item 1
-                            </Text>
-                        </Grid>
-                        <Grid justify='center' style={{ marginRight: '6%', backgroundColor: '#003F88', height: '200px', width: '250px', borderRadius: '25px' }}>
-                            <Text color={'white'} size={30} weight={500} style={{ margin: 'auto' }}>
-                                Item 2
-                            </Text>
-                        </Grid>
-                        <Grid justify='center' style={{ backgroundColor: '#003F88', height: '200px', width: '250px', borderRadius: '25px' }}>
-                            <Text color={'white'} size={30} weight={500} style={{ margin: 'auto' }}>
-                                Item 3
-                            </Text>
-                        </Grid>
+                        {
+                            courseParams.map((item, i) => (
+                                <Grid key={i} justify='center' style={{ marginRight: '5%', backgroundColor: '#003F88', height: '195px', width: '320px', borderRadius: '25px', cursor: 'pointer'}}>
+                                    <a href="#">
+                                        <div className="home-img-container">
+                                            <img src={'http://localhost:5000/images/' + item.imagemCurso} className="home-item-img"></img>
+                                        </div>
+                                        {/* <Text color={'white'} size={30} weight={500} style={{ margin: 'auto' }}>
+                                        Item 1
+                                        </Text> */}
+                                    </a>
+                                </Grid>
+                            ))
+                        }
                     </Grid>
 
                     <Grid justify='center' style={{ marginBottom: '10px' }}>

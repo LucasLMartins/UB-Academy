@@ -25,7 +25,7 @@ function Admin() {
     const [salesParams, setSalesParams] = useState([])
 
     // restante
-    const [courseInsertState, setCourseInsertState] = useState({ nome: '', categoria: 'Pg', preco: '', descricao: '', img: '', skills: '' })
+    const [courseInsertState, setCourseInsertState] = useState({ nome: '', categoria: '1', preco: '', descricao: '', img: '', skills: '' })
     //const [itemEditState, setItemEditState] = useState({ itemId: '', nome: '', img: '', desc: '', preco: '' })
     //const [itemDeleteState, setItemDeleteState] = useState({ itemId: '' })
 
@@ -263,12 +263,12 @@ function Admin() {
                             <label>Categoria</label>
                             <br></br>
                             <select onChange={e => setCourseInsertState({ ...courseInsertState, categoria: e.target.value})} name="categoriaCurso" id="categoriaCurso" className="input-new-modal-category">
-                                <option value='programacao' selected>Programação</option>
-                                <option value='dados'>Dados</option>
-                                <option value='seguranca'>Segurança</option>
-                                <option value='qualidade'>Qualidade</option>
-                                <option value='redes'>Redes</option>
-                                <option value='ia'>Inteligência Artificial</option>
+                                <option value='1' selected>Programação</option>
+                                <option value='2'>Dados</option>
+                                <option value='3'>Segurança</option>
+                                <option value='4'>Qualidade</option>
+                                <option value='5'>Redes</option>
+                                <option value='6'>Inteligência Artificial</option>
                             </select>
                             <br></br>
                             <label>Preço</label>

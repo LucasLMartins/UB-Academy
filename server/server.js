@@ -106,6 +106,17 @@ app.post('/admin/insertCourse', (req,res) => {
     })
 })
 
+//  Rota para passar as infos da tela "cursos"
+app.get('/cursos', (req,res) => {
+    db.query('SELECT * FROM ubacademy.cursos', (erro, resultadoCursos) => {
+        if(erro){
+            throw erro;
+        }
+        res.json([{
+            cursos: resultadoCursos
+        }])
+    })
+})
 
 
 
