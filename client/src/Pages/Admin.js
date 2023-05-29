@@ -208,7 +208,7 @@ function Admin() {
                 </div>
 
                 <div className="admin-logout">
-                    <button className="admin-logout-button" onClick={() => logout()}>Deslogar</button>
+                    <button className="admin-logout-button" onClick={() => logout()}>Logout</button>
                 </div>
             </div>
 
@@ -311,7 +311,7 @@ function Admin() {
                 </div>
 
                 <div className="admin-logout">
-                    <button className="admin-logout-button" onClick={() => logout()}>Deslogar</button>
+                    <button className="admin-logout-button" onClick={() => logout()}>Logout</button>
                 </div>
             </div>
 

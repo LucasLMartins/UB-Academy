@@ -11,6 +11,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 function Courses() {
     const [courseParams, setCourseParams] = useState([])
     const [courseParamsFilter, setCourseParamsFilter] = useState([])
+    const [formInput, setFormInput] = useState({search: ''})
 
     const navigate = useNavigate()
     const useQuery = () => new URLSearchParams(useLocation().search);
@@ -28,6 +29,8 @@ function Courses() {
     let priceArrowState = 0;
 
     useEffect(() => {
+        window.scrollTo(0, 0)
+        
         api.get('/cursos').then(res => {
             let parametrosCursos = (res.data[0].cursos)
             setCourseParams(parametrosCursos)
@@ -137,7 +140,26 @@ function Courses() {
     function changePriceFilter() {
         const rangeMaxValue = document.getElementById('range-max')
         const rangeMinValue = document.getElementById('range-min')
-        
+        let minValue;
+        let maxValue;
+        if (rangeMinValue.value == ''){
+            minValue = 0.0
+        } else {
+            minValue = rangeMinValue.value
+        }
+
+        if (rangeMaxValue.value == ''){
+            maxValue = 0.0
+        } else {
+            maxValue = rangeMaxValue.value
+        }
+
+        navigate('/cursos?cat='+queryCategory+'&min='+minValue+'&max='+maxValue+'&search='+querySearch)
+    }
+
+    const SearchCourse = (e) => {
+        e.preventDefault()
+        navigate('/cursos?cat='+queryCategory+'&min='+queryPriceMin+'&max='+queryPriceMax+'&search='+formInput.search)
     }
 
     function clickCategory_item(categoria){
@@ -233,7 +255,9 @@ function Courses() {
 
                     <div className="cs-bottom-div-right">
                         <div className="cs-search-div">
-                            <input className="search-input" type="text" placeholder="Pesquise seu curso..."></input>
+                            <form onSubmit={SearchCourse}>
+                                <input onChange={e => setFormInput({...formInput, search: e.target.value})} className="search-input" type="text" placeholder="Pesquise seu curso..."></input>
+                            </form>
                         </div>
                         <div className="cs-grid-div">
                             {

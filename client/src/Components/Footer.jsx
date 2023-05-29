@@ -19,15 +19,15 @@ export default function Footer() {
                         <div className='footer-grid'>
                             <div className='pages-list'>
                                 <h3 className='footer-items-title'>Páginas</h3>
-                                <a className='footer-items footer-links' href='/#'>Home</a>
-                                <a className='footer-items footer-links' href='/#'>Cursos</a>
-                                <a className='footer-items footer-links' href='/#'>Perfil</a>
+                                <a className='footer-items footer-links' href='/'>Home</a>
+                                <a className='footer-items footer-links' href='/cursos'>Cursos</a>
+                                <a className='footer-items footer-links' href='/perfil'>Perfil</a>
                             </div>
                             <div className='about-list'>
                                 <h3 className='footer-items-title'>Sobre</h3>
-                                <a className='footer-items footer-links' href='/#'>Suporte</a>
-                                <a className='footer-items footer-links' href='/#'>Termos e Condições</a>
-                                <a className='footer-items footer-links' href='/#'>Política de Privacidade</a>
+                                <a className='footer-items footer-links' href='/suporte'>Suporte</a>
+                                <a className='footer-items footer-links' href='/termos-e-condicoes'>Termos e Condições</a>
+                                <a className='footer-items footer-links' href='/politica-de-privacidade'>Política de Privacidade</a>
                             </div>
                             <div className='info-list'>
                                 <h3 className='footer-items-title'>Informações</h3>

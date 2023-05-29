@@ -6,6 +6,8 @@ import Lesson from './Pages/Lesson'
 import Suporte from './Pages/Suporte'
 import Perfil from './Pages/Perfil'
 import Admin from './Pages/Admin'
+import Terms from './Pages/Terms'
+import Privacy from './Pages/Privacy'
 import api from './api.js'
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
           <Route path="/suporte" element={<Suporte />}/>
           <Route path="/perfil" element={<Perfil />}/>
           <Route path='/admin' element={<Admin />}/>
+          <Route path='/termos-e-condicoes' element={<Terms />} />
+          <Route path='/politica-de-privacidade' element={<Privacy />} />
 
         </Routes>
       </Router>

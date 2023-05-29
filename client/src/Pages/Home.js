@@ -6,10 +6,14 @@ import Footer from "../Components/Footer";
 import Logo from '../Pages/Images/UBlogo_alpha.png';
 import Banner from '../Pages/Images/Banner.png';
 import api from '../api.js'
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Home() {
 
     const [courseParams, setCourseParams] = useState([])
+    const [formInput, setFormInput] = useState({search: ''})
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         api.get('/cursos').then(res => {
@@ -17,6 +21,11 @@ function Home() {
             setCourseParams(parametrosCursos.slice(0, 3))
         })
     }, [])
+
+    const SearchCourse = (e) => {
+        e.preventDefault()
+        navigate('/cursos?search='+formInput.search)
+    }
 
 
     return (
@@ -56,7 +65,7 @@ function Home() {
                     <Grid container justify='center' align='center' style={{ marginBottom: '125px', width: '100%' }}>
                         {
                             courseParams.map((item, i) => (
-                                <Grid key={i} justify='center' style={{ marginRight: '5%', backgroundColor: '#003F88', height: '195px', width: '320px', borderRadius: '25px', cursor: 'pointer'}}>
+                                <Grid key={i} justify='center' style={{ marginRight: '5%', backgroundColor: '#003F88', height: '195px', width: '320px', borderRadius: '25px', cursor: 'pointer', boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'}}>
                                     <a href="#">
                                         <div className="home-img-container">
                                             <img src={'http://localhost:5000/images/' + item.imagemCurso} className="home-item-img"></img>
@@ -77,7 +86,9 @@ function Home() {
                     </Grid>
 
                     <div className="cs-search-div">
-                        <input className="search-input" type="text" placeholder="Pesquise seu curso..."></input>
+                        <form onSubmit={SearchCourse}>
+                            <input onChange={e => setFormInput({...formInput, search: e.target.value})} className="search-input" type="text" placeholder="Pesquise seu curso..."></input>
+                        </form>
                     </div>
 
                     <Grid justify='center' style={{ marginTop: '110px', marginBottom: '70px' }}>

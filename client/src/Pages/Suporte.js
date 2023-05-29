@@ -27,7 +27,7 @@ function Suporte() {
                     <Grid justify='center'  style={{ marginRight: '4%', backgroundColor: '#003F88', height: '200px', width: '300px', borderRadius: '25px'}}>
                         <IconMapPin size={70} style={{marginTop: '10%', color: "white"}}/>
                         <Text color={'white'} size={22} weight={500} style={{margin: 'auto', marginLeft: '10px'}}>
-                        123 Rua das Flores, Tarumã, Curitiba - PR, Brasil
+                        442 Rua Konrad Adenauer, Tarumã, Curitiba - PR, Brasil
                         </Text>
                     </Grid>
                     <Grid justify='center' style={{ marginRight: '4%', backgroundColor: '#003F88', height: '200px', width: '300px', borderRadius: '25px'}}>
