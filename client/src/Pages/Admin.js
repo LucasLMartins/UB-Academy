@@ -18,7 +18,6 @@ function Admin() {
     const [videoFileName, setVideoFileName] = useState("")
     const [imageFile, setImageFile] = useState()
     const [imageFileName, setImageFileName] = useState("")
-    const [imageConfirmFile, setimageConfirmFile] = useState(null)
 
     // Variáveis parametros cursos e vendas
     const [courseParams, setCourseParams] = useState([])

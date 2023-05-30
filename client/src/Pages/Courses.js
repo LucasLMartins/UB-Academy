@@ -263,7 +263,7 @@ function Courses() {
                             {
                                 courseParamsFilter.map((item, i) => (
                                     <div key={i} className="cs-grid-item-container">
-                                        <a href="#">
+                                        <a href={'/curso?id='+item.idCurso+'&category='+item.categoria}>
                                             <div className="cs-img-container">
                                                 <img src={'http://localhost:5000/images/' + item.imagemCurso} className="cs-item-img"></img>
                                             </div>

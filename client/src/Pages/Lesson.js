@@ -1,25 +1,45 @@
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import '../styles/lesson.css';
-import Header from "../Components/Header"
-import Footer from "../Components/Footer";
 import ReactPlayer from 'react-player'
-import api from '../api.js'
+
 
 function Lesson() {
 
+    const [lessonsParams, setLessonsParams] = useState([])
     const [lessonParams, setLessonParams] = useState([])
+    const [courseParams, setCourseParams] = useState([])
 
+    const navigate = useNavigate();
+    const useQuery = () => new URLSearchParams(useLocation().search);
+    const query = useQuery();
+    let Aid = query.get('Aid');
+    let Cid = query.get('Cid');
 
     useEffect(() => {
-        api.get('/aula').then(res => {
-            let parametrosAula = (res.data[0].aula[0])
-            setLessonParams(parametrosAula)
-            // let parametrosVendas = (res.data[0].agendamentos)
-            // setSalesParams(parametrosVendas)
-        })
-    }, [])
+        fetchLesson({idAula: Aid, idCurso: Cid})
+    }, [Aid, Cid])
 
+    async function fetchLesson(id) {
+        fetch('http://localhost:5000/aula', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(id)
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setLessonsParams(data[0].aulas)
+                setCourseParams(data[0].curso[0])
+                setLessonParams(data[0].aula[0])
+            })
+    }
+
+    function selectLesson() {
+        document.getElementById('les-lesson'+lessonParams.idAula).style.backgroundColor = 'hsl(0deg 0% 10.2%)'
+    }
 
 
     return (
@@ -32,8 +52,8 @@ function Lesson() {
                             <img src={require('./Images/arrowLeft.png')}></img>
                         </a>
                         <div className="les-left-top-title">
-                            <h2 className="les-title">Curso de Banco de Dados</h2>
-                            <h3 className="les-subtitle">Introdução ao curso</h3>
+                            <h2 className="les-title">{courseParams.nomeCurso}</h2>
+                            <h3 className="les-subtitle">{lessonParams.tituloAula}</h3>
                         </div>
                         
                     </div>
@@ -42,7 +62,7 @@ function Lesson() {
                             className=''
                             width="100%"
                             height="100%"
-                            url= {'http://localhost:5000/files/zap.mp4'}
+                            url= {'http://localhost:5000/videos/'+lessonParams.video}
                             controls = {true}
                         />
                     </div>
@@ -53,26 +73,27 @@ function Lesson() {
 
                 <div className="les-right-div">
                     <div className="les-course-title">
-                        <h3>Curso de Banco de Dados</h3>
+                        <h3>{courseParams.nomeCurso}</h3>
                     </div>
-                    <div className="les-lessons">
-                        <div className="les-lesson-container">
-                            <img className="play-icon" src={require('./Images/playArrow2.png')}></img>
-                            <h4>Introdução ao curso</h4>
-                        </div>
-                        <div className="les-lesson-container les-lesson-selected">
-                            <img className="play-icon" src={require('./Images/playArrow2.png')}></img>
-                            <h4>Aula 1</h4>
-                        </div>
-                        <div className="les-lesson-container">
-                            <img className="play-icon" src={require('./Images/playArrow2.png')}></img>
-                            <h4>Aula 2</h4>
-                        </div>
+                    <div className="les-lessons" onLoad={() => selectLesson()}>
+                        {
+                            lessonsParams.map((item, i) => (
+                                <div key={i}> 
+                                    <a href={'/aula?Aid='+item.idAula+'&Cid='+courseParams.idCurso}>
+                                        <div id={'les-lesson' + item.idAula} className="les-lesson-container">
+                                            <img className="play-icon" src={require('./Images/playArrow2.png')}></img>
+                                            <h4>{item.tituloAula}</h4>
+                                        </div>
+                                        <div className="lesson-container-bottom"></div>
+                                    </a>
+                                </div>
+
+                            ))
+                        }
                     </div>
                 </div>
             </div>
 
-            {/* <Footer /> */}
         </div>
     )
 

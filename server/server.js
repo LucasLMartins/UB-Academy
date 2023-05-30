@@ -118,6 +118,44 @@ app.get('/cursos', (req,res) => {
     })
 })
 
+// Rota para pegar o curso selecionado pela rota
+app.post('/curso', (req,res) => {
+    db.query(`SELECT * FROM ubacademy.cursos WHERE idCurso = ?`, 
+    [req.body.idCurso], (erro, resultadoCurso) => {
+        if(erro){
+            throw erro;
+        }
+        res.json([{
+            curso: resultadoCurso
+        }])
+    })
+})
+
+app.post('/aula', (req,res) => {
+    db.query('SELECT * FROM ubacademy.aulas WHERE idCurso = ?',
+    [req.body.idCurso], (erro, resultadoAulas) => {
+        if(erro){
+            throw erro;
+        }
+        db.query('SELECT * FROM ubacademy.cursos WHERE idCurso = ?',
+        [req.body.idCurso], (erro, resultadoCurso) => {
+            if(erro){
+                throw erro;
+            }
+            db.query('SELECT * FROM ubacademy.aulas WHERE idCurso = ? AND idAula = ?',
+            [req.body.idCurso, req.body.idAula], (erro, resultadoAula) => {
+                if(erro){
+                    throw erro;
+                }
+                res.json([{
+                    aulas: resultadoAulas,
+                    aula: resultadoAula,
+                    curso: resultadoCurso
+                }])
+            })
+        })
+    })
+})
 
 
 
