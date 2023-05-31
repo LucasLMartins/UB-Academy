@@ -88,10 +88,16 @@ app.get('/admin', function(req,res){
             if(erro){
                 throw erro;
             }
-            res.json([{
-                cursos: resultadoCursos,
-                vendas: resultadoVendas
-            }])
+            db.query(`SELECT * FROM ubacademy.aulas`, function(erro, resultadoAulas){
+                if(erro){
+                    throw erro;
+                }
+                res.json([{
+                    cursos: resultadoCursos,
+                    vendas: resultadoVendas,
+                    aulas: resultadoAulas
+                }])
+            }) 
         })
     })
 })

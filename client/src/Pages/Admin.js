@@ -8,10 +8,10 @@ import React from "react";
 function Admin() {
 
     // Variáveis de login e info de admin
-    const [login, setLogin] = useState(localStorage.getItem('adminLogin'))
-    const [info, setInfo] = useState(localStorage.getItem('adminInfo'))
+    const [login] = useState(localStorage.getItem('adminLogin'))
+    //const [info, setInfo] = useState(localStorage.getItem('adminInfo'))
     const [adminLogin, setAdminLogin] = useState({ user: '', password: '' })
-    let adminInfo = JSON.parse(info);
+    //let adminInfo = JSON.parse(info);
 
     // Variáveis para upload de arquivo
     const [videoFile, setVideoFile] = useState()
@@ -22,9 +22,15 @@ function Admin() {
     // Variáveis parametros cursos e vendas
     const [courseParams, setCourseParams] = useState([])
     const [salesParams, setSalesParams] = useState([])
+    const [Search, setSearch] = useState({search: ''})
 
-    // restante
+    // Variáveis parametros curso
+    const [lessonsPage, setLessonsPage] = useState([])
+    const [lessonsPageL, setLessonsPageL] = useState([])
+
+    // Variáveis para inserção no banco de dados
     const [courseInsertState, setCourseInsertState] = useState({ nome: '', categoria: '1', preco: '', descricao: '', img: '', skills: '' })
+
     //const [itemEditState, setItemEditState] = useState({ itemId: '', nome: '', img: '', desc: '', preco: '' })
     //const [itemDeleteState, setItemDeleteState] = useState({ itemId: '' })
 
@@ -33,16 +39,48 @@ function Admin() {
     const useQuery = () => new URLSearchParams(useLocation().search);
     const query = useQuery();
     const page = query.get('page');
+    const querySearch = query.get('search')
+    const courseId = query.get('courseId')
+    
 
     useEffect(() => {
         api.get('/admin').then(res => {
-            let parametrosCursos = (res.data[0].cursos)
-            let parametrosVendas = (res.data[0].vendas)
-            setCourseParams(parametrosCursos)
-            setSalesParams(parametrosVendas)
+            fetchCoursesPage(res.data[0].cursos)
+            fetchSalesPage(res.data[0].vendas)
+            fetchLessonsPage(res.data[0].cursos, res.data[0].aulas)
         })
-    }, [])
+/* eslint-disable */}, [querySearch])
 
+    async function fetchCoursesPage(cursos){
+        if (querySearch !== null) {
+            cursos = cursos.filter(
+                i => i.nomeCurso.toLowerCase().includes(querySearch.toLowerCase())
+            )
+        }
+        setCourseParams(cursos)
+    }
+
+    async function fetchSalesPage(vendas){
+        setSalesParams(vendas)
+    }
+
+    async function fetchLessonsPage(cursos, aulas){
+        let curso = cursos.filter(
+            i => i.idCurso == courseId
+        )
+        setLessonsPage(curso[0])
+        setLessonsPageL(aulas)
+    }
+
+    const SearchCourse = (e) => {
+        e.preventDefault()
+        navigate('/admin?search='+Search.search)
+    }
+
+    const SearchSale = (e) => {
+        e.preventDefault()
+        navigate('/admin?page=sales&search='+Search.search)
+    }
 
     function loginForm() {
         if (adminLogin.user !== '' && adminLogin.password !== '') {
@@ -79,10 +117,12 @@ function Admin() {
     }
 
     function changeCourses() {
+        document.getElementById('input-admin').value = ''
         navigate("/admin")
     }
 
     function changeSales() {
+        document.getElementById('input-admin').value = ''
         navigate("/admin?page=sales")
     }
 
@@ -94,33 +134,33 @@ function Admin() {
         document.getElementById('new-modal').style.display = 'none'
     }
 
-    function openEditModal(item) {
+    // function openEditModal(item) {
 
-    }
+    // }
 
-    function closeEditModal() {
-        document.getElementById('edit-modal').style.display = 'none'
-    }
+    // function closeEditModal() {
+    //     document.getElementById('edit-modal').style.display = 'none'
+    // }
 
-    function openDeleteModal(item) {
+    // function openDeleteModal(item) {
 
-    }
+    // }
 
-    function closeDeleteModal() {
-        document.getElementById('delete-modal').style.display = 'none'
-    }
+    // function closeDeleteModal() {
+    //     document.getElementById('delete-modal').style.display = 'none'
+    // }
 
-    function insertItem() {
+    // function insertItem() {
 
-    }
+    // }
 
-    function editItem() {
+    // function editItem() {
 
-    }
+    // }
 
-    function deleteItem() {
+    // function deleteItem() {
 
-    }
+    // }
 
     const saveVideoFile = (e) => {
         setVideoFile(e.target.files[0])
@@ -215,7 +255,10 @@ function Admin() {
             <div className="admin-paper">
                 <div className="admin-header">
                     <span className="admin-course-title">Cursos</span>
-                    <input className="admin-search-input" type="text" placeholder="Pesquise por um curso..."></input>
+                    <form onSubmit={SearchCourse} className="admin-search-input-form">
+                        <input onChange={e => setSearch({...Search, search: e.target.value})} id="input-admin" className="admin-search-input" type="text" placeholder="Pesquise por um curso..."></input>
+                    </form>
+                    
                     <button className="admin-course-create-button" onClick={() => OpenCreateModal()}>Criar novo</button>
                 </div>
                 <div className="admin-crud-container">
@@ -223,17 +266,19 @@ function Admin() {
                         {
                             courseParams.map((item, i) => (
                                 <div key={i} className="cs-grid-item-container">
-                                    <div className="cs-img-container">
-                                        <img src={'http://localhost:5000/images/' + item.imagemCurso} className="cs-item-img"></img>
-                                    </div>
-                                    <div className="cs-item-name-container">
-                                        <p className="cs-item-name">{item.nomeCurso}</p>
-                                    </div>
-                                    <div className="cs-item-price-container">
-                                        <div className="cs-item-price-container-inner">
-                                            <p className="cs-item-price">R${item.precoCurso},00</p>
+                                    <a href={'/admin?page=lessons&courseId='+item.idCurso}>
+                                        <div className="cs-img-container">
+                                            <img src={'http://localhost:5000/images/' + item.imagemCurso} className="cs-item-img" alt="banner do curso"></img>
                                         </div>
-                                    </div>
+                                        <div className="cs-item-name-container">
+                                            <p className="cs-item-name">{item.nomeCurso}</p>
+                                        </div>
+                                        <div className="cs-item-price-container">
+                                            <div className="cs-item-price-container-inner">
+                                                <p className="cs-item-price">R${item.precoCurso},00</p>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
                             ))
                         }
@@ -262,7 +307,7 @@ function Admin() {
                             <label>Categoria</label>
                             <br></br>
                             <select onChange={e => setCourseInsertState({ ...courseInsertState, categoria: e.target.value})} name="categoriaCurso" id="categoriaCurso" className="input-new-modal-category">
-                                <option value='1' selected>Programação</option>
+                                <option value='1' defaultValue>Programação</option>
                                 <option value='2'>Dados</option>
                                 <option value='3'>Segurança</option>
                                 <option value='4'>Qualidade</option>
@@ -318,7 +363,9 @@ function Admin() {
             <div className="admin-paper">
                 <div className="admin-header">
                     <span className="admin-course-title">Vendas</span>
-                    <input className="admin-search-input" type="text" placeholder="Pesquise por um curso..."></input>
+                    <form onSubmit={SearchSale} className="admin-search-input-form">
+                        <input onChange={e => setSearch({...Search, search: e.target.value})} id="input-admin" className="admin-search-input" type="text" placeholder="Pesquise por um curso..."></input>
+                    </form>
                     <div></div>
                 </div>
                 <div className="">
@@ -336,6 +383,148 @@ function Admin() {
                     <input type="file" name="file" onChange={saveImageFile}></input>
                     <button onClick={insertCourse}>Enviar</button>
 
+
+                    <p>{salesParams[0].idVenda}</p>
+
+                </div>
+            </div>
+        </div>
+    )
+
+    if (login === 'true' && page === 'lessons') return (
+        <div className="admin-main-div">
+            <div className="admin-login-header">
+                <div className="admin-return-home">
+                    <div onClick={() => navigate('/')} className="home-icon-div">
+                        <h2>Home</h2>
+                    </div>
+                </div>
+                <div className="">
+                    <div onClick={() => navigate("/admin")} className="admin-select-products admin-select">
+                        <p>Cursos</p>
+                    </div>
+                    <div onClick={() => navigate("/admin?page=sales")} className="admin-select-orders admin-select">
+                        <p>Vendas</p>
+                    </div>
+                </div>
+
+                <div className="admin-logout">
+                    <button className="admin-logout-button" onClick={() => logout()}>Logout</button>
+                </div>
+            </div>
+
+            <div className="admin-paper">
+                <div className="admin-les-container">
+                    <div className="admin-les-top">
+                        <div className="admin-les-top-title">
+                            <h3 style={{ display: 'inline-block', position: 'relative', left: '70px', fontSize: '25px', paddingTop: '5px'}}>Curso</h3>
+                            <div className="admin-les-top-title-float">
+                                <div className="">
+                                    <button className="admin-les-editButton" style={{marginRight: '30px'}}>Editar</button>
+                                    <button className="admin-les-deleteButton">Excluir</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="admin-les-top-container">
+                            <div className="admin-les-top-categories" style={{ marginBottom: '0px' }}>
+                                <div className="admin-les-imagemCurso admin-les-infos" style={{ width: '15%', borderRight: '0' }}>
+                                    <p className="admin-les-info-title" style={{ padding: '10px 0' }}>Banner</p>
+                                </div>
+                                <div className="admin-les-nomeCurso admin-les-infos" style={{ width: '20%', borderRight: '0' }}>
+                                    <p className="admin-les-info-title">Nome</p>
+                                </div>
+                                <div className="admin-les-categoria admin-les-infos" style={{ width: '15%', borderRight: '0' }}>
+                                    <p className="admin-les-info-title">Categoria</p>
+                                </div>
+                                <div className="admin-les-precoCurso admin-les-infos" style={{ width: '10%', borderRight: '0' }}>
+                                    <p className="admin-les-info-title">Preço</p>
+                                </div>
+                                <div className="admin-les-descricaoCurso admin-les-infos" style={{ width: '20%', borderRight: '0' }}>
+                                    <p className="admin-les-info-title">Descrição</p>
+                                </div>
+                                <div className="admin-les-skillsCurso admin-les-infos" style={{ width: '20%' }}>
+                                    <p className="admin-les-info-title">Skills</p>
+                                </div>
+                            </div>
+
+                            <div className="admin-les-top-categories">
+                                <div className="admin-les-imagemCurso admin-les-infos" style={{ width: '15%', borderTop: '0', borderRight: '0' }}>
+                                    <div className="admin-les-img-container">
+                                        <img src={'http://localhost:5000/images/' + lessonsPage.imagemCurso} className="cs-item-img" alt="banner do curso"></img>
+                                    </div>
+                                </div>
+                                <div className="admin-les-nomeCurso admin-les-infos" style={{ width: '20%', borderTop: '0', borderRight: '0' }}>
+                                    <p className="admin-les-info-content">{lessonsPage.nomeCurso}</p>
+                                </div>
+                                <div className="admin-les-categoria admin-les-infos" style={{ width: '15%', borderTop: '0', borderRight: '0' }}>
+                                    <p className="admin-les-info-content">{lessonsPage.categoria}</p>
+                                </div>
+                                <div className="admin-les-precoCurso admin-les-infos" style={{ width: '10%', borderTop: '0', borderRight: '0' }}>
+                                    <p className="admin-les-info-content">R${lessonsPage.precoCurso},00</p>
+                                </div>
+                                <div className="admin-les-descricaoCurso admin-les-infos" style={{ width: '20%', borderTop: '0', borderRight: '0' }}>
+                                    <p className="admin-les-info-content">{lessonsPage.descricaoCurso}</p>
+                                </div>
+                                <div className="admin-les-skillsCurso admin-les-infos" style={{ width: '20%', borderTop: '0' }}>
+                                    <p className="admin-les-info-content">{lessonsPage.skillsCurso}</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div className="admin-les-bottom">
+                        <div className="admin-les-bottom-title">
+                            <h3 style={{ display: 'inline-block', position: 'relative', left: '70px', fontSize: '25px', paddingTop: '5px'}}>Aulas</h3>
+                            <div className="admin-les-top-title-float">
+                                <div className="">
+                                    <button className="admin-les-createButton" style={{marginRight: '30px'}}>Criar nova aula</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="admin-les-bottom-container">
+                            <div className="admin-les-bottom-categories">
+                                <div className="admin-les-infos" style={{ width: '25%' }}>
+                                    <p className="">Título</p>
+                                </div>
+                                <div className="admin-les-infos" style={{ width: '35%' }}>
+                                    <p className="">Descrição</p>
+                                </div>
+                                <div className="admin-les-infos" style={{ width: '25%' }}>
+                                    <p className="">Video</p>
+                                </div>
+                                <div className="admin-les-infos" style={{ width: '15%' }}>
+                                    <p className="">Ações</p>
+                                </div>
+                            </div>
+
+                            {
+                                lessonsPageL.map((item, i) => (
+                                    <div key={i} className="admin-les-bottom-categories">
+                                        <div className="admin-les-infos" style={{ width: '25%' }}>
+                                            <p className="">{item.tituloAula}</p>
+                                        </div>
+                                        <div className="admin-les-infos" style={{ width: '35%' }}>
+                                            <p className="">{item.descricaoAula}</p>
+                                        </div>
+                                        <div className="admin-les-infos" style={{ width: '25%' }}>
+                                            <p className="">{item.video}</p>
+                                        </div>
+                                        <div className="admin-les-infos" style={{ width: '15%' }}>
+                                            <div className="">
+                                                <img width='30px' src="edit.png"></img>
+                                            </div>
+                                            <div className="">
+                                            <img width='30px' src="delete.png"></img>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -355,6 +544,7 @@ function Admin() {
                     <button className="adminButton" onClick={() => navigate('/')}>Sair</button>
                 </div>
             </div>
+
         </div>
     )
 

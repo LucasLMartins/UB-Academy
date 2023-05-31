@@ -92,8 +92,12 @@
     border-color: #003F88;
 }
 
-.admin-search-input{
+.admin-search-input-form{
     width: 70%;
+}
+
+.admin-search-input{
+    width: 100%;
     border: 2px solid rgb(189, 189, 189);
     border-radius: 20px;
     padding: 5px 20px;
@@ -102,6 +106,8 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     outline: none;
 }
+
+
 
 /* crud produtos */
 /* crud produtos */
@@ -282,13 +288,139 @@
     background-color: #0077ff;
 }
 
+/* CRUD curso */
+/* CRUD curso */
+/* CRUD curso */
+
+.admin-les-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-les-top{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-les-top-title{
+    width: 100%;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.admin-les-top-title-float{
+    float: right;
+}
+
+.admin-les-top-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-les-top-categories{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.admin-les-editButton{
+    font-size: 18px;
+    background-color: orange;
+    padding: 10px 15px;
+    border-width: 0;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-les-deleteButton{
+    font-size: 18px;
+    background-color: red;
+    padding: 10px 15px;
+    border-width: 0;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-les-info-title{
+    font-weight: bold;
+    font-size: 18px;
+    color: rgb(50, 50, 50);
+}
+
+.admin-les-img-container{
+    border-radius: 0px 0px 0px 0px;
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    min-height: 100%;
+}
+
+.admin-les-infos{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #003F88;
+}
+
+.admin-les-info-content{
+    font-size: 18px;
+}
+
+
+
+.admin-les-bottom{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 80px;
+}
+
+.admin-les-createButton{
+    font-size: 18px;
+    background-color: #003F88;
+    padding: 10px 15px;
+    border-width: 0;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-les-bottom-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-les-bottom-categories{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+}
+
+.admin-les-bottom-title{
+    width: 100%;
+    margin-bottom: 30px;
+    text-align: center;
+}
 
 /* table pedidos */
 /* table pedidos */
 /* table pedidos */
 
 
-.crud-id-orders{
+/* .crud-id-orders{
     width: 10%;
 }
 
@@ -317,7 +449,7 @@
 /* table agendamento */
 /* table agendamento */
 
-.crud-nome-schedules{
+/* .crud-nome-schedules{
     width: 15%;
 }
 
@@ -347,4 +479,7 @@
 
 .crud-animal-schedules{
     width: 15%;
-}
+}  */
+
+
+
