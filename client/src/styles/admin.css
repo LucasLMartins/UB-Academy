@@ -301,12 +301,13 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    background-color: #F3F6F9 !important;
 }
 
 .admin-les-top-title{
     width: 100%;
     margin-bottom: 30px;
-    text-align: center;
+    text-align: left;
 }
 
 .admin-les-top-title-float{
@@ -326,7 +327,7 @@
 
 .admin-les-editButton{
     font-size: 18px;
-    background-color: orange;
+    background-color: rgb(241, 157, 0);
     padding: 10px 15px;
     border-width: 0;
     border-radius: 5px;
@@ -335,21 +336,31 @@
     transition: 0.3s;
 }
 
+.admin-les-editButton:hover{
+    background-color: rgb(255, 182, 48);
+}
+
 .admin-les-deleteButton{
     font-size: 18px;
-    background-color: red;
+    background-color: rgb(238, 0, 0);
     padding: 10px 15px;
     border-width: 0;
     border-radius: 5px;
     color: white;
     cursor: pointer;
     transition: 0.3s;
+}
+
+.admin-les-deleteButton:hover{
+    background-color: rgb(255, 75, 75);
 }
 
 .admin-les-info-title{
     font-weight: bold;
     font-size: 18px;
-    color: rgb(50, 50, 50);
+    color: black;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .admin-les-img-container{
@@ -368,12 +379,14 @@
 .admin-les-infos{
     display: flex;
     align-items: center;
-    justify-content: center;
-    border: 2px solid #003F88;
+    justify-content: left;
+    border: 1px solid #003F88;
 }
 
 .admin-les-info-content{
     font-size: 18px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 
@@ -406,80 +419,97 @@
 .admin-les-bottom-categories{
     display: flex;
     flex-direction: row;
-    width: 80%;
+    width: 100%;
 }
 
 .admin-les-bottom-title{
     width: 100%;
     margin-bottom: 30px;
-    text-align: center;
+    text-align: left;
+}
+
+.admin-les-actions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #003F88;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 7px;
+    margin: 5px 0;
+}
+
+.admin-les-actions > p {
+    margin-left: 5px;
+    margin-top: 1px;
+}
+
+.admin-edit-button{
+    font-size: 18px;
+    background-color: rgb(241, 157, 0);
+    padding: 10px 40px;
+    border-width: 0;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-edit-button:hover{
+    background-color: rgb(255, 182, 48);
+}
+
+.close-edit-modal{
+    float: right;
+    font-size: 18px;
+    background-color: rgb(241, 157, 0);
+    padding: 10px 15px;
+    border-width: 0;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-edit-modal:hover{
+    background-color: rgb(255, 182, 48);
+}
+
+.les-actions-edit{
+    background-color: rgb(241, 157, 0);
+    transition: 0.3s;
+}
+
+.les-actions-edit:hover{
+    background-color: rgb(255, 182, 48)
+}
+
+.les-actions-delete{
+    background-color: rgb(238, 0, 0);
+    transition: 0.3s;
+}
+
+.les-actions-delete:hover{
+    background-color: rgb(255, 75, 75);
+}
+
+.delete-confirm-button{
+    background-color: rgb(238, 0, 0);
+    width: 100px;
+    height: 50px;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.delete-confirm-button:hover{
+    background-color: rgb(255, 75, 75);
 }
 
 /* table pedidos */
 /* table pedidos */
 /* table pedidos */
-
-
-/* .crud-id-orders{
-    width: 10%;
-}
-
-.crud-cpf-orders{
-    width: 20%;
-}
-
-.crud-nameProduct-orders{
-    width: 30%;
-}
-
-.crud-product-orders{
-    width: 10%;
-}
-
-.crud-qnt-orders{
-    width: 10%;
-}
-
-.crud-date-orders{
-    width: 20%;
-}
-
-
-/* table agendamento */
-/* table agendamento */
-/* table agendamento */
-
-/* .crud-nome-schedules{
-    width: 15%;
-}
-
-.crud-cpf-schedules{
-    width: 10%;
-}
-
-.crud-fone-schedules{
-    width: 15%;
-}
-
-.crud-tipo-schedules{
-    width: 10%;
-}
-
-.crud-hour-schedules{
-    width: 10%;
-}
-
-.crud-data-schedules{
-    width: 15%;
-}
-
-.crud-specie-schedules{
-    width: 10%;
-}
-
-.crud-animal-schedules{
-    width: 15%;
-}  */
-
-
-
