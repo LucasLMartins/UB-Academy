@@ -122,8 +122,19 @@ app.post('/admin/editCourse', (req,res) => {
     })
 })
 
+// Rota para deletar curso no banco de dados
 app.post('/admin/deleteCourse', (req,res) => {
     db.query(`DELETE FROM ubacademy.cursos WHERE idCurso = ?`, [req.body.id], (erro) => {
+        if(erro){
+            res.status(200).send('Erro: ' + erro)
+        }
+    })
+})
+
+// Rota para inserir aula no banco de dados
+app.post('/admin/insertLesson', (req,res) => {
+    db.query(`INSERT INTO ubacademy.aulas(idCurso, tituloAula, video, descricaoAula) VALUES (?,?,?,?)`,
+    [req.body.idCurso, req.body.titulo, req.body.video, req.body.descricao], (erro) => {
         if(erro){
             res.status(200).send('Erro: ' + erro)
         }

@@ -33,9 +33,7 @@ function Admin() {
     // Variáveis para inserção no banco de dados
     const [courseInsertState, setCourseInsertState] = useState({ nome: '', categoria: '1', preco: '', descricao: '', img: '', skills: '' })
     const [courseEditState, setCourseEditState] = useState({ nome: '', categoria: '', preco: '', descricao: '', img: '', skills: '', id: '' })
-
-    //const [itemEditState, setItemEditState] = useState({ itemId: '', nome: '', img: '', desc: '', preco: '' })
-    //const [itemDeleteState, setItemDeleteState] = useState({ itemId: '' })
+    const [lessonInsertState, setLessonInsertState] = useState({ idCurso: '', titulo: '', descricao: '', video: '' })
 
     const navigate = useNavigate();
 
@@ -73,33 +71,35 @@ function Admin() {
             i => i.idCurso == courseId
         )
 
-        let aula = aulas.filter(
+        let Aulas = aulas.filter(
             i => i.idCurso == courseId
         )
-
-        switch (curso[0].categoria) {
-            case '1':
-                curso[0].categoriaValue = 'Programação';
-                break;
-            case '2':
-                curso[0].categoriaValue = 'Dados';
-                break;
-            case '3':
-                curso[0].categoriaValue = 'Segurança';
-                break;
-            case '4':
-                curso[0].categoriaValue = 'Qualidade';
-                break;
-            case '5':
-                curso[0].categoriaValue = 'Redes';
-                break;
-            case '6':
-                curso[0].categoriaValue = 'Inteligência Artificial';
-                break;
+        
+        if (curso[0] !== undefined){
+            switch (curso[0].categoria) {
+                case '1':
+                    curso[0].categoriaValue = 'Programação';
+                    break;
+                case '2':
+                    curso[0].categoriaValue = 'Dados';
+                    break;
+                case '3':
+                    curso[0].categoriaValue = 'Segurança';
+                    break;
+                case '4':
+                    curso[0].categoriaValue = 'Qualidade';
+                    break;
+                case '5':
+                    curso[0].categoriaValue = 'Redes';
+                    break;
+                case '6':
+                    curso[0].categoriaValue = 'Inteligência Artificial';
+                    break;
+            }
         }
-        curso[0].categoria
+
         setLessonsPage(curso[0])
-        setLessonsPageL(aula)
+        setLessonsPageL(Aulas)
         
     }
 
@@ -185,10 +185,12 @@ function Admin() {
 
     // Create lesson modal
     function openCreateLessonModal() {
-
+        document.getElementById('new-modal-create-lesson').style.display = 'flex'
+        
+        setLessonInsertState({ ...lessonInsertState, idCurso: courseId })
     }
     function closeCreateLessonModal() {
-
+        document.getElementById('new-modal-create-lesson').style.display = 'none'
     }
 
     // Edit lesson modal
@@ -207,41 +209,37 @@ function Admin() {
 
     }
 
-    const saveVideoFile = (e) => {
-        setVideoFile(e.target.files[0])
-        setVideoFileName(e.target.files[0].name)
-    }
+    
+    
 
-    const uploadVideoFile = async (e) => {
-        const formData = new FormData()
-        formData.append("file", videoFile)
-        formData.append("fileName", videoFileName)
-        try {
-            const res = await axios.post(
-                "http://localhost:5000/admin/videoUpload",
-                formData
-            )
-            console.log(res)
-        } catch (ex) {
-            console.log(ex)
+    const saveImageFile = (e) => {
+        if (e.target.files[0] !== undefined){
+            setImageFile(e.target.files[0])
+            setImageFileName(e.target.files[0].name)
+            setCourseInsertState({ ...courseInsertState, img: e.target.files[0].name })
+            document.getElementById('choose-image-button').style.backgroundImage = 'url(' + URL.createObjectURL(e.target.files[0]) + ')'
+            document.getElementById('choose-image-button').style.backgroundSize = '100% 100%'
         }
     }
 
-    const saveImageFile = (e) => {
-        setImageFile(e.target.files[0])
-        setImageFileName(e.target.files[0].name)
-        setCourseInsertState({ ...courseInsertState, img: e.target.files[0].name })
-        document.getElementById('choose-image-button').style.backgroundImage = 'url(' + URL.createObjectURL(e.target.files[0]) + ')'
-        document.getElementById('choose-image-button').style.backgroundSize = '100% 100%'
+    const saveEditImageFile = (e) => {
+        if (e.target.files[0] !== undefined){
+            setEditImageFile(e.target.files[0])
+            setEditImageFileName(e.target.files[0].name)
+            setCourseEditState({ ...courseEditState, img: e.target.files[0].name })
+            document.getElementById('choose-image-button-edit').style.backgroundImage = 'url(' + URL.createObjectURL(e.target.files[0]) + ')'
+            document.getElementById('choose-image-button-edit').style.backgroundSize = '100% 100%'
+        } 
     }
 
-    const saveEditImageFile = (e) => {
-        setEditImageFile(e.target.files[0])
-        setEditImageFileName(e.target.files[0].name)
-        setCourseEditState({ ...courseEditState, img: e.target.files[0].name })
-        document.getElementById('choose-image-button-edit').style.backgroundImage = 'url(' + URL.createObjectURL(e.target.files[0]) + ')'
-        document.getElementById('choose-image-button-edit').style.backgroundSize = '100% 100%'
+    const saveVideoFile = (e) => {
+        if (e.target.files[0] !== undefined){
+            setVideoFile(e.target.files[0])
+            setVideoFileName(e.target.files[0].name)
+            setLessonInsertState({ ...lessonInsertState, video: e.target.files[0].name })
+        }
     }
+
 
     const insertCourse = async (e) => {
         if (courseInsertState.nome !== '' && courseInsertState.categoria !== '' && courseInsertState.preco !== '' && courseInsertState.descricao !== '' && courseInsertState.img !== '' && courseInsertState.skills !== '') {
@@ -318,7 +316,7 @@ function Admin() {
         }
     }
 
-    async function deleteCourse() {
+    const deleteCourse = async (e) => {
         let id = { id: courseId}
         fetch('http://localhost:5000/admin/deleteCourse', {
             method: "POST",
@@ -332,6 +330,43 @@ function Admin() {
                 console.log(result)
             })
         navigate(0)
+    }
+
+    const insertLesson = async (e) => {
+        if (lessonInsertState.idCurso !== '' && lessonInsertState.titulo !== '' && lessonInsertState.descricao !== '' && lessonInsertState.video !== '') {
+            // upload de video
+            const formData = new FormData()
+            formData.append("file", videoFile)
+            formData.append("fileName", videoFileName)
+            try {
+                const res = await axios.post(
+                    "http://localhost:5000/admin/videoUpload",
+                    formData
+                )
+                console.log(res)
+            } catch (ex) {
+                console.log(ex)
+            }
+
+            // insert no mysql
+            fetch('http://localhost:5000/admin/insertLesson', {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(lessonInsertState)
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log(result)
+                })
+
+            navigate(0)
+        }
+        else {
+            console.log(lessonInsertState)
+            window.alert('Preencha todos os campos!')
+        }
     }
 
 
@@ -391,6 +426,7 @@ function Admin() {
                     </div>
                 </div>
 
+                {/* create course modal */}
                 <div id="new-modal" className="insert-new-modal">
                     <div className="new-modal-container">
                         <div className="insert-new-modal-top">
@@ -498,7 +534,7 @@ function Admin() {
     )
 
     if (login === 'true' && page === 'lessons') {
-        if (typeof lessonsPage.nomeCurso == 'string') {
+        if (lessonsPage !== undefined) {
             return (
                 <div className="admin-main-div">
                     <div className="admin-login-header">
@@ -586,7 +622,7 @@ function Admin() {
                                     <h3 style={{ display: 'inline-block', fontSize: '25px', paddingTop: '5px' }}>Aulas</h3>
                                     <div className="admin-les-top-title-float">
                                         <div className="">
-                                            <button className="admin-les-createButton" style={{ marginRight: '0px' }}>Criar nova aula</button>
+                                            <button onClick={() => openCreateLessonModal()} className="admin-les-createButton" style={{ marginRight: '0px' }}>Criar nova aula</button>
                                         </div>
                                     </div>
                                 </div>
@@ -692,19 +728,53 @@ function Admin() {
                     {/* delete modal */}
                     <div id="new-modal-delete-course" className="insert-new-modal">
                         <div className="new-modal-container" style={{ borderColor: 'rgb(238, 0, 0)' }}>
-                            {/* <div className="insert-new-modal-top">
-                                <p className="create-new-course">Excluir curso</p>
-                                <span className="close-edit-modal" onClick={() => closeDeleteCourseModal()}>X</span>
-                                
-                            </div> */}
                             <div className="delete-new-modal">
                                 <div className="delete-new-modal-text">
                                     <p className="create-new-course">Deseja mesmo excluir este curso?</p>
                                 </div>
                                 <div className="delete-new-modal-buttons">
-                                    <button className="delete-confirm-button" onClick={() => deleteCourse()} style={{ marginRight: '50px' }}>Sim</button>
-                                    <button className="delete-confirm-button" onClick={() => closeDeleteCourseModal()}>Não</button>
+                                    <button className="delete-confirm-button" onClick={deleteCourse} style={{ marginRight: '50px' }}>Sim, prosseguir</button>
+                                    <button className="delete-confirm-button" onClick={() => closeDeleteCourseModal()}>Não, cancelar</button>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* create lesson modal */}
+                    <div id="new-modal-create-lesson" className="insert-new-modal">
+                        <div className="new-modal-container">
+                            <div className="insert-new-modal-top">
+                                <p className="create-new-course">Criar nova aula</p>
+                                <span className="close-insert-new-modal" onClick={() => closeCreateLessonModal()}>X</span>
+                            </div>
+
+                            <div style={{ textAlign: 'center' }}>
+                                <label>Vídeo</label>
+                                <br></br>
+                                <div className="choose-video-div">
+                                    <div className="choose-video-button" id="choose-video-button">
+                                        <div className="choose-video-file-name-div">
+                                            <p className="choose-video-file-name">{videoFileName}</p>
+                                        </div>
+                                        <div id="choose-video-button-inner" className="choose-video-button-inner" onClick={() => document.getElementById('insertVideoInput').click()}
+                                        onMouseOver={() => document.getElementById('choose-video-button').style.borderColor = '#005cc5'}
+                                        onMouseOut={() => document.getElementById('choose-video-button').style.borderColor = '#003F88'}>
+                                            <img src="uploadicon.png" style={{ width: '20px', marginRight: '10px'}}></img>
+                                            <p style={{ fontSize: '19px' }}>Selecione o vídeo...</p>
+                                        </div>
+                                    </div>
+                                    <input id="insertVideoInput" type="file" name="file" className="videoInput" accept="video/mp4, video/mov, video/wmv, video/avi, video/mkv" onChange={saveVideoFile} style={{ display: 'none' }}></input>
+                                </div>
+                                <br></br>
+                                <label>Título da aula</label>
+                                <br></br>
+                                <input onChange={e => setLessonInsertState({ ...lessonInsertState, titulo: e.target.value })} type="text" required name="tituloAula" id="tituloAula" className="input-new-modal"></input>
+                                <br></br>
+                                <label>Descrição</label>
+                                <br></br>
+                                <input onChange={e => setLessonInsertState({ ...lessonInsertState, descricao: e.target.value })} type="text" required name="descricaoAula" id="descricaoAula" className="input-new-modal"></input>
+                                <br></br>
+                                <button className="admin-create-button" onClick={insertLesson}>Criar</button>
                             </div>
                         </div>
                     </div>

@@ -134,11 +134,11 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .admin-course-create-button:hover{
-    background-color: #0077ff;
+    background-color: #005cc5;
 }
 
 .admin-select{
@@ -208,11 +208,11 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .close-insert-new-modal:hover{
-    background-color: #0077ff;
+    background-color: #005cc5;
 }
 
 .input-new-modal{
@@ -281,11 +281,11 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .admin-create-button:hover{
-    background-color: #0077ff;
+    background-color: #005cc5;
 }
 
 /* CRUD curso */
@@ -333,7 +333,7 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .admin-les-editButton:hover{
@@ -348,7 +348,7 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .admin-les-deleteButton:hover{
@@ -406,7 +406,11 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
+}
+
+.admin-les-createButton:hover{
+    background-color: #005cc5;
 }
 
 .admin-les-bottom-container{
@@ -453,7 +457,7 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .admin-edit-button:hover{
@@ -469,7 +473,7 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .close-edit-modal:hover{
@@ -478,7 +482,7 @@
 
 .les-actions-edit{
     background-color: rgb(241, 157, 0);
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .les-actions-edit:hover{
@@ -487,7 +491,7 @@
 
 .les-actions-delete{
     background-color: rgb(238, 0, 0);
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .les-actions-delete:hover{
@@ -496,18 +500,66 @@
 
 .delete-confirm-button{
     background-color: rgb(238, 0, 0);
-    width: 100px;
+    width: 200px;
     height: 50px;
     border: 0;
     border-radius: 5px;
     color: white;
-    font-size: 20px;
-    transition: 0.3s;
+    font-size: 18px;
+    transition: 0.2s;
     cursor: pointer;
 }
 
 .delete-confirm-button:hover{
     background-color: rgb(255, 75, 75);
+}
+
+.choose-video-div{
+    display: inline-block;
+    text-align: center;
+}
+
+.choose-video-button{
+    width: 227px;
+    margin-top: 3px;
+    margin-bottom: 20px;
+    border: white 2px solid;
+    border-radius: 3px;
+    border-color: #003F88;
+    font-size: 18px;
+    height: 85px;
+    display: flex;
+    flex-direction: column;
+}
+
+.choose-video-file-name-div{
+    width: 100%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.choose-video-file-name{
+    color: #003F88;
+}
+
+.choose-video-button-inner{
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #003F88;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+    border-top: 2px solid #003F88;
+}
+
+.choose-video-button-inner:hover{
+    background-color: #005cc5;
+    border-color: #005cc5;
 }
 
 /* table pedidos */
