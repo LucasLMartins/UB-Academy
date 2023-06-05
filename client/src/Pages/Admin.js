@@ -34,6 +34,7 @@ function Admin() {
     const [courseInsertState, setCourseInsertState] = useState({ nome: '', categoria: '1', preco: '', descricao: '', img: '', skills: '' })
     const [courseEditState, setCourseEditState] = useState({ nome: '', categoria: '', preco: '', descricao: '', img: '', skills: '', id: '' })
     const [lessonInsertState, setLessonInsertState] = useState({ idCurso: '', titulo: '', descricao: '', video: '' })
+    const [lessonDeleteState, setLessonDeleteState] = useState({ id: '' })
 
     const navigate = useNavigate();
 
@@ -178,6 +179,7 @@ function Admin() {
     // Delete course modal
     function openDeleteCourseModal() {
         document.getElementById('new-modal-delete-course').style.display = 'flex'
+        document.getElementById('delete-course-name').innerText = lessonsPage.nomeCurso
     }
     function closeDeleteCourseModal() {
         document.getElementById('new-modal-delete-course').style.display = 'none'
@@ -202,11 +204,16 @@ function Admin() {
     }
 
     //Delete lesson modal
-    function openDeleteLessonModal() {
+    function openDeleteLessonModal(item) {
+        document.getElementById('new-modal-delete-lesson').style.display = 'flex'
+        document.getElementById('delete-lesson-name').innerText = item.tituloAula
 
+        setLessonDeleteState({
+            id: item.idAula
+        })
     }
     function closeDeleteLessonModal() {
-
+        document.getElementById('new-modal-delete-lesson').style.display = 'none'
     }
 
     
@@ -369,6 +376,24 @@ function Admin() {
         }
     }
 
+    const editLesson = async (e) => {
+
+    }
+
+    const deleteLesson = async (e) => {
+        fetch('http://localhost:5000/admin/deleteLesson', {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(lessonDeleteState)
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result)
+            })
+        navigate(0)
+    }
 
     if (login === 'true' && page == null) return (
         <div className="admin-main-div">
@@ -511,22 +536,6 @@ function Admin() {
                     <div></div>
                 </div>
                 <div className="">
-                    <h1>upload de videos </h1>
-                    <br></br>
-                    <input type="file" name="file" onChange={saveVideoFile}></input>
-                    <button onClick={uploadVideoFile}>Enviar</button>
-
-                    <br></br>
-                    <br></br>
-                    <br></br>
-
-                    <h1>upload de imagens</h1>
-                    <br></br>
-                    <input type="file" name="file" onChange={saveImageFile}></input>
-                    <button onClick={insertCourse}>Enviar</button>
-
-
-                    <p>{salesParams[0].idVenda}</p>
 
                 </div>
             </div>
@@ -660,7 +669,7 @@ function Admin() {
                                                         <img width='25px' src="edit.png"></img>
                                                         <p>Editar</p>
                                                     </div>
-                                                    <div className="admin-les-actions les-actions-delete">
+                                                    <div className="admin-les-actions les-actions-delete" onClick={() => openDeleteLessonModal(item)}>
                                                         <img width='25px' src="delete.png"></img>
                                                         <p>Excluir</p>
                                                     </div>
@@ -724,13 +733,13 @@ function Admin() {
                         </div>
                     </div>
         
-        
                     {/* delete modal */}
                     <div id="new-modal-delete-course" className="insert-new-modal">
                         <div className="new-modal-container" style={{ borderColor: 'rgb(238, 0, 0)' }}>
                             <div className="delete-new-modal">
                                 <div className="delete-new-modal-text">
-                                    <p className="create-new-course">Deseja mesmo excluir este curso?</p>
+                                    <p className="create-new-course" style={{ marginBottom: '3vh' }}>Deseja mesmo excluir este curso?</p>
+                                    <p className="create-new-course" id="delete-course-name" style={{ fontSize: '25px' }}>Curso</p>
                                 </div>
                                 <div className="delete-new-modal-buttons">
                                     <button className="delete-confirm-button" onClick={deleteCourse} style={{ marginRight: '50px' }}>Sim, prosseguir</button>
@@ -775,6 +784,22 @@ function Admin() {
                                 <input onChange={e => setLessonInsertState({ ...lessonInsertState, descricao: e.target.value })} type="text" required name="descricaoAula" id="descricaoAula" className="input-new-modal"></input>
                                 <br></br>
                                 <button className="admin-create-button" onClick={insertLesson}>Criar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* delete lesson modal */}
+                    <div id="new-modal-delete-lesson" className="insert-new-modal">
+                        <div className="new-modal-container" style={{ borderColor: 'rgb(238, 0, 0)' }}>
+                            <div className="delete-new-modal">
+                                <div className="delete-new-modal-text">
+                                    <p className="create-new-course" style={{ marginBottom: '3vh' }}>Deseja mesmo excluir esta aula?</p>
+                                    <p className="create-new-course" id="delete-lesson-name" style={{ fontSize: '25px' }}>Aula</p>
+                                </div>
+                                <div className="delete-new-modal-buttons">
+                                    <button className="delete-confirm-button" onClick={deleteLesson} style={{ marginRight: '50px' }}>Sim, prosseguir</button>
+                                    <button className="delete-confirm-button" onClick={() => closeDeleteLessonModal()}>Não, cancelar</button>
+                                </div>
                             </div>
                         </div>
                     </div>

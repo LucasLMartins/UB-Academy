@@ -141,6 +141,14 @@ app.post('/admin/insertLesson', (req,res) => {
     })
 })
 
+app.post('/admin/deleteLesson', (req,res) => {
+    db.query(`DELETE FROM ubacademy.aulas WHERE idAula = ?`, [req.body.id], (erro) => {
+        if(erro){
+            res.status(200).send('Erro: ' + erro)
+        }
+    })
+})
+
 //  Rota para passar as infos da tela "cursos"
 app.get('/cursos', (req,res) => {
     db.query('SELECT * FROM ubacademy.cursos', (erro, resultadoCursos) => {
