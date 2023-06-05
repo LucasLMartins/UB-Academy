@@ -20,6 +20,8 @@ function Admin() {
     // Variáveis para upload de videos
     const [videoFile, setVideoFile] = useState()
     const [videoFileName, setVideoFileName] = useState("")
+    const [editVideoFile, setEditVideoFile] = useState()
+    const [editVideoFileName, setEditVideoFileName] = useState("")
 
     // Variáveis parametros cursos e vendas
     const [courseParams, setCourseParams] = useState([])
@@ -32,9 +34,10 @@ function Admin() {
 
     // Variáveis para inserção no banco de dados
     const [courseInsertState, setCourseInsertState] = useState({ nome: '', categoria: '1', preco: '', descricao: '', img: '', skills: '' })
-    const [courseEditState, setCourseEditState] = useState({ nome: '', categoria: '', preco: '', descricao: '', img: '', skills: '', id: '' })
+    const [courseEditState, setCourseEditState] = useState({ nome: '', categoria: '', preco: '', descricao: '', img: '', skills: '', id: '', oldImg: '' })
     const [lessonInsertState, setLessonInsertState] = useState({ idCurso: '', titulo: '', descricao: '', video: '' })
-    const [lessonDeleteState, setLessonDeleteState] = useState({ id: '' })
+    const [lessonEditState, setLessonEditState] = useState({ idAula: '', idCurso: '', titulo: '', descricao: '', video: '', oldVideo: '' })
+    const [lessonDeleteState, setLessonDeleteState] = useState({ id: '', video: '' })
 
     const navigate = useNavigate();
 
@@ -52,7 +55,7 @@ function Admin() {
             fetchLessonsPage(res.data[0].cursos, res.data[0].aulas)
         })
         /* eslint-disable */
-}, [querySearch])
+    }, [querySearch])
 
     async function fetchCoursesPage(cursos) {
         if (querySearch !== null) {
@@ -75,8 +78,8 @@ function Admin() {
         let Aulas = aulas.filter(
             i => i.idCurso == courseId
         )
-        
-        if (curso[0] !== undefined){
+
+        if (curso[0] !== undefined) {
             switch (curso[0].categoria) {
                 case '1':
                     curso[0].categoriaValue = 'Programação';
@@ -101,7 +104,7 @@ function Admin() {
 
         setLessonsPage(curso[0])
         setLessonsPageL(Aulas)
-        
+
     }
 
     const SearchCourse = (e) => {
@@ -169,7 +172,8 @@ function Admin() {
             descricao: lessonsPage.descricaoCurso,
             img: lessonsPage.imagemCurso,
             skills: lessonsPage.skillsCurso,
-            id: lessonsPage.idCurso
+            id: lessonsPage.idCurso,
+            oldImg: lessonsPage.imagemCurso
         })
     }
     function closeEditCourseModal() {
@@ -188,7 +192,7 @@ function Admin() {
     // Create lesson modal
     function openCreateLessonModal() {
         document.getElementById('new-modal-create-lesson').style.display = 'flex'
-        
+
         setLessonInsertState({ ...lessonInsertState, idCurso: courseId })
     }
     function closeCreateLessonModal() {
@@ -196,11 +200,23 @@ function Admin() {
     }
 
     // Edit lesson modal
-    function openEditLessonModal() {
+    function openEditLessonModal(item) {
+        document.getElementById('new-modal-edit-lesson').style.display = 'flex'
+        document.getElementById('editTituloAula').value = item.tituloAula
+        document.getElementById('editDescricaoAula').value = item.descricaoAula
+        document.getElementById('editVideoFileName').innerText = item.video
 
+        setLessonEditState({
+            idAula: item.idAula,
+            idCurso: item.idCurso,
+            titulo: item.tituloAula,
+            descricao: item.descricaoAula,
+            video: item.video,
+            oldVideo: item.video
+        })
     }
     function closeEditLessonModal() {
-
+        document.getElementById('new-modal-edit-lesson').style.display = 'none'
     }
 
     //Delete lesson modal
@@ -209,18 +225,18 @@ function Admin() {
         document.getElementById('delete-lesson-name').innerText = item.tituloAula
 
         setLessonDeleteState({
-            id: item.idAula
+            id: item.idAula,
+            video: item.video
         })
     }
     function closeDeleteLessonModal() {
         document.getElementById('new-modal-delete-lesson').style.display = 'none'
     }
 
-    
-    
 
+    // funções para salvar arquivos
     const saveImageFile = (e) => {
-        if (e.target.files[0] !== undefined){
+        if (e.target.files[0] !== undefined) {
             setImageFile(e.target.files[0])
             setImageFileName(e.target.files[0].name)
             setCourseInsertState({ ...courseInsertState, img: e.target.files[0].name })
@@ -230,24 +246,33 @@ function Admin() {
     }
 
     const saveEditImageFile = (e) => {
-        if (e.target.files[0] !== undefined){
+        if (e.target.files[0] !== undefined) {
             setEditImageFile(e.target.files[0])
             setEditImageFileName(e.target.files[0].name)
             setCourseEditState({ ...courseEditState, img: e.target.files[0].name })
             document.getElementById('choose-image-button-edit').style.backgroundImage = 'url(' + URL.createObjectURL(e.target.files[0]) + ')'
             document.getElementById('choose-image-button-edit').style.backgroundSize = '100% 100%'
-        } 
+        }
     }
 
     const saveVideoFile = (e) => {
-        if (e.target.files[0] !== undefined){
+        if (e.target.files[0] !== undefined) {
             setVideoFile(e.target.files[0])
             setVideoFileName(e.target.files[0].name)
             setLessonInsertState({ ...lessonInsertState, video: e.target.files[0].name })
         }
     }
 
+    const saveEditVideoFile = (e) => {
+        if (e.target.files[0] !== undefined) {
+            setEditVideoFile(e.target.files[0])
+            setEditVideoFileName(e.target.files[0].name)
+            setLessonEditState({ ...lessonEditState, video: e.target.files[0].name })
+        }
+    }
 
+
+    // funções para fazer edições no banco de dados
     const insertCourse = async (e) => {
         if (courseInsertState.nome !== '' && courseInsertState.categoria !== '' && courseInsertState.preco !== '' && courseInsertState.descricao !== '' && courseInsertState.img !== '' && courseInsertState.skills !== '') {
             // upload de imagem
@@ -286,8 +311,22 @@ function Admin() {
 
     const editCourse = async (e) => {
         if (courseEditState.nome !== '' && courseEditState.categoria !== '' && courseEditState.preco !== '' && courseEditState.descricao !== '' && courseEditState.img !== '' && courseEditState.skills !== '') {
-            // upload de imagem
-            if (editImageFileName !== ""){
+
+            if (editImageFileName !== "") {
+                // excluindo imagem antiga
+                const formDataDelete = new FormData()
+                formDataDelete.append("fileName", courseEditState.oldImg)
+                try {
+                    const res = await axios.post(
+                        "http://localhost:5000/admin/deleteImage",
+                        formDataDelete
+                    )
+                    console.log(res)
+                } catch (ex) {
+                    console.log(ex)
+                }
+
+                // upload da imagem nova
                 const formData = new FormData()
                 formData.append("file", editImageFile)
                 formData.append("fileName", editImageFileName)
@@ -301,7 +340,7 @@ function Admin() {
                     console.log(ex)
                 }
             }
-            
+
 
             // insert no mysql
             fetch('http://localhost:5000/admin/editCourse', {
@@ -324,7 +363,24 @@ function Admin() {
     }
 
     const deleteCourse = async (e) => {
-        let id = { id: courseId}
+        let id = { id: courseId }
+        let img = { img: lessonsPage.imagemCurso }
+
+        // exluindo imagem do servidor
+        const formDataDelete = new FormData()
+        formDataDelete.append("fileName", img.img)
+        try {
+            const res = await axios.post(
+                "http://localhost:5000/admin/deleteImage",
+                formDataDelete
+            )
+            console.log(res)
+        } catch (ex) {
+            console.log(ex)
+        }
+
+
+        // excluindo o curso do mysql
         fetch('http://localhost:5000/admin/deleteCourse', {
             method: "POST",
             headers: {
@@ -377,24 +433,88 @@ function Admin() {
     }
 
     const editLesson = async (e) => {
+        if (lessonEditState.idAula !== '' && lessonEditState.idCurso !== '' && lessonEditState.titulo !== '' && lessonEditState.descricao !== '' && lessonEditState.video !== '') {
 
+            if (editVideoFileName !== "") {
+                //excluindo video antigo
+                const formDataDelete = new FormData()
+                formDataDelete.append("fileName", lessonEditState.oldVideo)
+                try {
+                    const res = await axios.post(
+                        "http://localhost:5000/admin/deleteVideo",
+                        formDataDelete
+                    )
+                    console.log(res)
+                } catch (ex) {
+                    console.log(ex)
+                }
+
+                //upload do video novo
+                const formData = new FormData()
+                formData.append("file", editVideoFile)
+                formData.append("fileName", editVideoFileName)
+                try {
+                    const res = await axios.post(
+                        "http://localhost:5000/admin/videoUpload",
+                        formData
+                    )
+                    console.log(res)
+                } catch (ex) {
+                    console.log(ex)
+                }
+            }
+
+            // insert no mysql
+            fetch('http://localhost:5000/admin/editLesson', {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(lessonEditState)
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log(result)
+                })
+
+            navigate(0)
+        }
     }
 
     const deleteLesson = async (e) => {
-        fetch('http://localhost:5000/admin/deleteLesson', {
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(lessonDeleteState)
-        })
-            .then((response) => response.json())
-            .then((result) => {
-                console.log(result)
+        if (lessonDeleteState.id !== '' && lessonDeleteState.video !== '') {
+            //excluir video do servidor
+            const formData = new FormData()
+            formData.append("fileName", lessonDeleteState.video)
+            try {
+                const res = await axios.post(
+                    "http://localhost:5000/admin/deleteVideo",
+                    formData
+                )
+                console.log(res)
+            } catch (ex) {
+                console.log(ex)
+            }
+
+            //excluir aula no mysql
+            fetch('http://localhost:5000/admin/deleteLesson', {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(lessonDeleteState)
             })
-        navigate(0)
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log(result)
+                })
+            navigate(0)
+        }
+
     }
 
+
+    // carregamento das páginas
     if (login === 'true' && page == null) return (
         <div className="admin-main-div">
             <div className="admin-login-header">
@@ -455,7 +575,7 @@ function Admin() {
                 <div id="new-modal" className="insert-new-modal">
                     <div className="new-modal-container">
                         <div className="insert-new-modal-top">
-                            <p className="create-new-course">Criar novo curso</p>
+                            <p className="create-new-course" style={{ paddingLeft: '35px' }}>Criar novo curso</p>
                             <span className="close-insert-new-modal" onClick={() => document.getElementById('new-modal').style.display = 'none'}>X</span>
                         </div>
 
@@ -560,12 +680,12 @@ function Admin() {
                                 <p>Vendas</p>
                             </div>
                         </div>
-        
+
                         <div className="admin-logout">
                             <button className="admin-logout-button" onClick={() => logout()}>Logout</button>
                         </div>
                     </div>
-        
+
                     <div className="admin-paper">
                         <div className="admin-les-container">
                             <div className="admin-les-top">
@@ -599,7 +719,7 @@ function Admin() {
                                             <p className="admin-les-info-title">Skills</p>
                                         </div>
                                     </div>
-        
+
                                     <div className="admin-les-top-categories">
                                         <div className="admin-les-imagemCurso admin-les-infos" style={{ width: '15%', borderTop: '0', borderRight: '0' }}>
                                             <div className="admin-les-img-container">
@@ -622,10 +742,10 @@ function Admin() {
                                             <p className="admin-les-info-content">{lessonsPage.skillsCurso}</p>
                                         </div>
                                     </div>
-        
+
                                 </div>
                             </div>
-        
+
                             <div className="admin-les-bottom">
                                 <div className="admin-les-bottom-title">
                                     <h3 style={{ display: 'inline-block', fontSize: '25px', paddingTop: '5px' }}>Aulas</h3>
@@ -635,7 +755,7 @@ function Admin() {
                                         </div>
                                     </div>
                                 </div>
-        
+
                                 <div className="admin-les-bottom-container">
                                     <div className="admin-les-bottom-categories">
                                         <div className="admin-les-infos" style={{ width: '25%', borderRight: '0' }}>
@@ -651,7 +771,7 @@ function Admin() {
                                             <p className="admin-les-info-title" style={{ marginLeft: '16px' }}>Ações</p>
                                         </div>
                                     </div>
-        
+
                                     {
                                         lessonsPageL.map((item, i) => (
                                             <div key={i} className="admin-les-bottom-categories">
@@ -665,7 +785,7 @@ function Admin() {
                                                     <p className="admin-les-info-content">{item.video}</p>
                                                 </div>
                                                 <div className="admin-les-infos" style={{ width: '15%', justifyContent: 'space-evenly', borderTop: '0' }}>
-                                                    <div className="admin-les-actions les-actions-edit">
+                                                    <div className="admin-les-actions les-actions-edit" onClick={() => openEditLessonModal(item)}>
                                                         <img width='25px' src="edit.png"></img>
                                                         <p>Editar</p>
                                                     </div>
@@ -677,26 +797,26 @@ function Admin() {
                                             </div>
                                         ))
                                     }
-        
+
                                 </div>
                             </div>
                         </div>
                     </div>
-        
-        
+
+
                     {/* edit modal */}
                     <div id="new-modal-edit-course" className="insert-new-modal">
                         <div className="new-modal-container" style={{ borderColor: 'rgb(241, 157, 0)' }}>
                             <div className="insert-new-modal-top">
-                                <p className="create-new-course">Editar curso</p>
+                                <p className="create-new-course" style={{ paddingLeft: '35px' }}>Editar curso</p>
                                 <span className="close-edit-modal" onClick={() => closeEditCourseModal()}>X</span>
                             </div>
-        
+
                             <div>
                                 <label>Imagem do curso</label>
                                 <br></br>
                                 <div className="choose-image-div">
-                                    <div id="choose-image-button-edit" className="choose-image-button" style={{backgroundImage: 'url(http://localhost:5000/images/' + lessonsPage.imagemCurso + ')', backgroundSize: '100% 100%'}}></div>
+                                    <div id="choose-image-button-edit" className="choose-image-button" style={{ backgroundImage: 'url(http://localhost:5000/images/' + lessonsPage.imagemCurso + ')', backgroundSize: '100% 100%' }}></div>
                                     <input type="file" name="file" className="imgInput" accept="image/png, image/jpeg, image/jpg" onChange={saveEditImageFile}></input>
                                 </div>
                                 <br></br>
@@ -728,11 +848,11 @@ function Admin() {
                                 <input onChange={e => setCourseEditState({ ...courseEditState, skills: e.target.value })} type="text" required name="skillsCurso" id="skillsCurso" className="input-new-modal" defaultValue={lessonsPage.skillsCurso} style={{ borderColor: 'rgb(241, 157, 0)' }}></input>
                                 <br></br>
                                 <button className="admin-edit-button" onClick={editCourse}>Editar</button>
-        
+
                             </div>
                         </div>
                     </div>
-        
+
                     {/* delete modal */}
                     <div id="new-modal-delete-course" className="insert-new-modal">
                         <div className="new-modal-container" style={{ borderColor: 'rgb(238, 0, 0)' }}>
@@ -753,7 +873,7 @@ function Admin() {
                     <div id="new-modal-create-lesson" className="insert-new-modal">
                         <div className="new-modal-container">
                             <div className="insert-new-modal-top">
-                                <p className="create-new-course">Criar nova aula</p>
+                                <p className="create-new-course" style={{ paddingLeft: '35px' }}>Criar nova aula</p>
                                 <span className="close-insert-new-modal" onClick={() => closeCreateLessonModal()}>X</span>
                             </div>
 
@@ -766,9 +886,9 @@ function Admin() {
                                             <p className="choose-video-file-name">{videoFileName}</p>
                                         </div>
                                         <div id="choose-video-button-inner" className="choose-video-button-inner" onClick={() => document.getElementById('insertVideoInput').click()}
-                                        onMouseOver={() => document.getElementById('choose-video-button').style.borderColor = '#005cc5'}
-                                        onMouseOut={() => document.getElementById('choose-video-button').style.borderColor = '#003F88'}>
-                                            <img src="uploadicon.png" style={{ width: '20px', marginRight: '10px'}}></img>
+                                            onMouseOver={() => document.getElementById('choose-video-button').style.borderColor = '#005cc5'}
+                                            onMouseOut={() => document.getElementById('choose-video-button').style.borderColor = '#003F88'}>
+                                            <img src="uploadicon.png" style={{ width: '20px', marginRight: '10px' }}></img>
                                             <p style={{ fontSize: '19px' }}>Selecione o vídeo...</p>
                                         </div>
                                     </div>
@@ -784,6 +904,45 @@ function Admin() {
                                 <input onChange={e => setLessonInsertState({ ...lessonInsertState, descricao: e.target.value })} type="text" required name="descricaoAula" id="descricaoAula" className="input-new-modal"></input>
                                 <br></br>
                                 <button className="admin-create-button" onClick={insertLesson}>Criar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* edit lesson modal */}
+                    <div id="new-modal-edit-lesson" className="insert-new-modal">
+                        <div className="new-modal-container" style={{ borderColor: 'rgb(241, 157, 0)' }}>
+                            <div className="insert-new-modal-top">
+                                <p className="create-new-course" style={{ paddingLeft: '35px' }}>Editar Aula</p>
+                                <span className="close-edit-modal" onClick={() => closeEditLessonModal()}>X</span>
+                            </div>
+
+                            <div style={{ textAlign: 'center' }}>
+                                <label>Vídeo</label>
+                                <br></br>
+                                <div className="choose-video-div">
+                                    <div className="choose-video-button" id="edit-choose-video-button" style={{ borderColor: 'rgb(241, 157, 0)' }}>
+                                        <div className="choose-video-file-name-div">
+                                            <p className="choose-video-file-name" id="editVideoFileName" style={{ color: 'rgb(241, 157, 0)' }}>{editVideoFileName}</p>
+                                        </div>
+                                        <div id="choose-video-button-inner" className="choose-video-button-inner-edit" onClick={() => document.getElementById('editVideoInput').click()}
+                                            onMouseOver={() => document.getElementById('edit-choose-video-button').style.borderColor = 'rgb(255, 182, 48)'}
+                                            onMouseOut={() => document.getElementById('edit-choose-video-button').style.borderColor = 'rgb(241, 157, 0)'} >
+                                            <img src="uploadicon.png" style={{ width: '20px', marginRight: '10px' }}></img>
+                                            <p style={{ fontSize: '19px' }}>Selecione o vídeo...</p>
+                                        </div>
+                                    </div>
+                                    <input id="editVideoInput" type="file" name="file" className="videoInput" accept="video/mp4, video/mov, video/wmv, video/avi, video/mkv" onChange={saveEditVideoFile} style={{ display: 'none' }}></input>
+                                </div>
+                                <br></br>
+                                <label>Título da aula</label>
+                                <br></br>
+                                <input onChange={e => setLessonEditState({ ...lessonEditState, titulo: e.target.value })} type="text" required name="tituloAula" id="editTituloAula" className="input-new-modal" style={{ borderColor: 'rgb(241, 157, 0)' }}></input>
+                                <br></br>
+                                <label>Descrição</label>
+                                <br></br>
+                                <input onChange={e => setLessonEditState({ ...lessonEditState, descricao: e.target.value })} type="text" required name="descricaoAula" id="editDescricaoAula" className="input-new-modal" style={{ borderColor: 'rgb(241, 157, 0)' }}></input>
+                                <br></br>
+                                <button className="admin-les-editButton" onClick={editLesson}>Editar</button>
                             </div>
                         </div>
                     </div>

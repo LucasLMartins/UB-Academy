@@ -7,6 +7,7 @@ const database = require('./models/db');
 const fileUpload = require('express-fileupload')
 app.use(express.json())
 app.use(cors())
+const fs = require('fs');
 
 
 // Configurando arquivos estáticos para acessar no front-end
@@ -43,6 +44,18 @@ app.post('/admin/videoUpload', (req, res) => {
     })
 })
 
+app.post('/admin/deleteVideo', (req,res) => {
+    const newpath = __dirname + "/public/videos/"
+    const filename = req.body.fileName
+
+    fs.unlink(`${newpath}${filename}`, (err) => {
+        if (err) {
+            res.status(500).send({message: "File delete failed", code: 200})
+        }
+        res.status(200).send({ message: "file deleted", code: 200})
+    }); 
+})
+
 app.post('/admin/imageUpload', (req, res) => {
     const newpath = __dirname + "/public/images/"
     const file = req.files.file
@@ -53,6 +66,18 @@ app.post('/admin/imageUpload', (req, res) => {
             res.status(500).send({message: "File upload failed", code: 200})
         }
         res.status(200).send({ message: "file uploaded", code: 200})
+    })
+})
+
+app.post('/admin/deleteImage', (req,res) => {
+    const newpath = __dirname + "/public/images/"
+    const filename = req.body.fileName
+
+    fs.unlink(`${newpath}${filename}`, (err) => {
+        if (err) {
+            res.status(500).send({message: "File delete failed", code: 200})
+        }
+        res.status(200).send({ message: "file deleted", code: 200})
     })
 })
 
@@ -141,6 +166,16 @@ app.post('/admin/insertLesson', (req,res) => {
     })
 })
 
+app.post('/admin/editLesson', (req,res) => {
+    db.query(`UPDATE ubacademy.aulas SET tituloAula = ?, video = ?, descricaoAula = ? WHERE idCurso = ? AND idAula = ?`,
+    [req.body.titulo, req.body.video, req.body.descricao, req.body.idCurso, req.body.idAula], (erro) => {
+        if(erro){
+            res.status(200).send('Erro: ' + erro)
+        }
+    })
+})
+
+// Rota para deletar aula no banco de dados
 app.post('/admin/deleteLesson', (req,res) => {
     db.query(`DELETE FROM ubacademy.aulas WHERE idAula = ?`, [req.body.id], (erro) => {
         if(erro){
