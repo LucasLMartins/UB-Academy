@@ -4,29 +4,28 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.mt{
-    margin-top: 150px;
-}
-
 .admin-form{
-    margin-top: 5vh;
+    margin-top: 30px;
 }
 
 #adminUser{
-    width: 300px;
-    font-size: 20px;
-    padding: 10px 15px;
-    border: #003F88 2px solid;
-    border-radius: 3px;
+    border: 0;
+    border-radius: 7px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 1px 7px 1px;
+    height: 50px;
+    font-size: 22px;
+    padding-left: 15px;
+    outline: none;
 }
 
 #adminPass{
-    margin-top: 2vh;
-    width: 300px;
-    font-size: 20px;
-    padding: 10px 15px;
-    border: #003F88 2px solid;
-    border-radius: 3px;
+    border: 0;
+    border-radius: 7px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 1px 7px 1px;
+    height: 50px;
+    font-size: 22px;
+    padding-left: 15px;
+    outline: none;
 }
 
 .adminButton{
@@ -37,11 +36,13 @@
     padding: 10px 0;
     background-color: #003F88;
     border-width: 0px;
-    border-radius: 3px;
+    border-radius: 6px;
     display: block;
+    cursor: pointer;
 }
 
 .divAdminButtons{
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -221,6 +222,7 @@
     border-radius: 3px;
     border-color: #003F88;
     font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .input-new-modal-category{

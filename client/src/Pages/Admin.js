@@ -164,6 +164,7 @@ function Admin() {
     // Edit course modal
     function openEditCourseModal() {
         document.getElementById('new-modal-edit-course').style.display = 'flex'
+        document.getElementById('categoriaCursoEdit').value = lessonsPage.categoria
 
         setCourseEditState({
             nome: lessonsPage.nomeCurso,
@@ -175,6 +176,7 @@ function Admin() {
             id: lessonsPage.idCurso,
             oldImg: lessonsPage.imagemCurso
         })
+
     }
     function closeEditCourseModal() {
         document.getElementById('new-modal-edit-course').style.display = 'none'
@@ -778,7 +780,7 @@ function Admin() {
                                                 <div className="admin-les-infos" style={{ width: '25%', borderTop: '0', borderRight: '0' }}>
                                                     <p className="admin-les-info-content">{item.tituloAula}</p>
                                                 </div>
-                                                <div className="admin-les-infos" style={{ width: '40%', borderTop: '0', borderRight: '0' }}>
+                                                <div className="admin-les-infos" style={{ width: '40%', borderTop: '0', borderRight: '0', padding: '10px 0', textAlign: 'left' }}>
                                                     <p className="admin-les-info-content">{item.descricaoAula}</p>
                                                 </div>
                                                 <div className="admin-les-infos" style={{ width: '20%', borderTop: '0', borderRight: '0' }}>
@@ -826,13 +828,13 @@ function Admin() {
                                 <br></br>
                                 <label>Categoria</label>
                                 <br></br>
-                                <select onChange={e => setCourseEditState({ ...courseEditState, categoria: e.target.value })} name="categoriaCurso" id="categoriaCurso" className="input-new-modal-category" style={{ borderColor: 'rgb(241, 157, 0)' }} defaultValue={lessonsPage.categoria}>
-                                    <option value='1'>Programação</option>
-                                    <option value='2'>Dados</option>
-                                    <option value='3'>Segurança</option>
-                                    <option value='4'>Qualidade</option>
-                                    <option value='5'>Redes</option>
-                                    <option value='6'>Inteligência Artificial</option>
+                                <select onChange={e => setCourseEditState({ ...courseEditState, categoria: e.target.value })} name="categoriaCurso" id="categoriaCursoEdit" className="input-new-modal-category" style={{ borderColor: 'rgb(241, 157, 0)' }}>
+                                    <option value='1' id="courseCategoryOptionValue1">Programação</option>
+                                    <option value='2' id="courseCategoryOptionValue2">Dados</option>
+                                    <option value='3' id="courseCategoryOptionValue3">Segurança</option>
+                                    <option value='4' id="courseCategoryOptionValue4">Qualidade</option>
+                                    <option value='5' id="courseCategoryOptionValue5">Redes</option>
+                                    <option value='6' id="courseCategoryOptionValue6">Inteligência Artificial</option>
                                 </select>
                                 <br></br>
                                 <label>Preço</label>
@@ -901,7 +903,7 @@ function Admin() {
                                 <br></br>
                                 <label>Descrição</label>
                                 <br></br>
-                                <input onChange={e => setLessonInsertState({ ...lessonInsertState, descricao: e.target.value })} type="text" required name="descricaoAula" id="descricaoAula" className="input-new-modal"></input>
+                                <textarea onChange={e => setLessonInsertState({ ...lessonInsertState, descricao: e.target.value })} type="text" required name="descricaoAula" id="descricaoAula" className="input-new-modal" style={{ resize: 'vertical', width: '219px', height: '80px'}}></textarea>
                                 <br></br>
                                 <button className="admin-create-button" onClick={insertLesson}>Criar</button>
                             </div>
@@ -971,17 +973,23 @@ function Admin() {
     }
 
     return (
-        <div className="admin-main-div">
-            <h1 className="mt">Login Admin</h1>
+        <div className="admin-main-div" style={{ textAlign: 'center', height: '80vh' }}>
+            <div className="" style={{ textAlign: 'center', display: 'inline-block' }}>
+                <div className="" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #003F88', width: '100px', height: '100px', borderRadius: '50%', marginTop: '160px', backgroundColor: '#f3f9ff' }}>
+                    <img src="UBlogo_alpha.png" width='80px'></img>
+                </div>
+            </div>
+            
+            <h1 className="" style={{ marginTop: '30px', color: '#003F88' }}>Bem vindo,<br></br> entre com sua conta</h1>
             <div className="admin-form" method='get'>
-                <input type="text" id="adminUser" required name="user" onChange={e => setAdminLogin({ ...adminLogin, user: e.target.value })} placeholder="Usuário" className="admin-user-input" ></input>
+                <input type="text" id="adminUser" required name="user" onChange={e => setAdminLogin({ ...adminLogin, user: e.target.value })} placeholder="Usuário" className="admin-user-input" style={{ marginBottom: '25px', width: '300px' }}></input>
                 <br></br>
-                <input type="password" id="adminPass" required name="password" onChange={e => setAdminLogin({ ...adminLogin, password: e.target.value })} placeholder="Senha" className="admin-password-input" ></input>
+                <input type="password" id="adminPass" required name="password" onChange={e => setAdminLogin({ ...adminLogin, password: e.target.value })} placeholder="Senha" className="admin-password-input" style={{ width: '300px' }}></input>
                 <br></br>
 
-                <div className="divAdminButtons">
-                    <button id="adminButton" className="adminButton" onClick={() => loginForm()}>Entrar</button>
-                    <button className="adminButton" onClick={() => navigate('/')}>Sair</button>
+                <div className="divAdminButtons" style={{ marginBottom: '200px' }}>
+                    <button id="adminButton" className="profile-login-buttons" onClick={() => loginForm()} style={{ width:'318px' }}>Entrar</button>
+                    {/* <button className="adminButton" onClick={() => navigate('/')}>Sair</button> */}
                 </div>
             </div>
 
