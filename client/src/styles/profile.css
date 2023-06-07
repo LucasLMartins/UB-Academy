@@ -11,8 +11,17 @@
 .profile-login-card{
     display: flex;
     flex-direction: column;
-    margin-top: 120px;
+    margin-top: 100px;
     margin-bottom: 200px;
+    width: 400px;
+    justify-content: center;
+}
+
+.profile-register-card{
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    margin-bottom: 80px;
     width: 400px;
     justify-content: center;
 }
@@ -37,6 +46,13 @@
     font-size: 22px;
     padding-left: 15px;
     outline: none;
+    width: 383px;
+}
+
+.profile-login-inputs-title{
+    font-size: 22px;
+    margin: 0 0 3px 2px;
+    color: #003F88;
 }
 
 .profile-login-card-buttons{

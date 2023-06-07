@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import '../styles/admin.css';
-import api from '../api.js'
+import { api } from '../api.js'
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import React from "react";

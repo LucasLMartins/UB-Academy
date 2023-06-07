@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import '../styles/courses.css';
-import api from '../api.js'
+import { api } from '../api.js'
 import Header from "../Components/Header"
 import Footer from "../Components/Footer";
-// import api from '../api.js'
 import ArrowDown from "./Images/arrow.png";
 import ArrowUp from "./Images/arrowUp.png";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function Courses() {
-    const [courseParams, setCourseParams] = useState([])
+    /* eslint-disable */ const [courseParams, setCourseParams] = useState([])
     const [courseParamsFilter, setCourseParamsFilter] = useState([])
     const [formInput, setFormInput] = useState({search: ''})
 
@@ -42,16 +41,16 @@ function Courses() {
             filterCourses(parametrosCursos)
         })
 
-        if (queryCategory == 'null') {
+        if (queryCategory === 'null') {
             queryCategory = ''
         }
-        if (queryPriceMin == 'null') {
+        if (queryPriceMin === 'null') {
             queryPriceMin = ''
         }
-        if (queryPriceMax == 'null') {
+        if (queryPriceMax === 'null') {
             queryPriceMax = ''
         }
-        if (querySearch == 'null') {
+        if (querySearch === 'null') {
             querySearch = ''
         }
 

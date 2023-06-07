@@ -108,3 +108,12 @@ footer{
 .headerLoginButton:hover{
     background-color: #005cc5;
 }
+
+.headerOptionsText{
+    transition: 0.1s;
+}
+
+.headerOptionsDiv:hover .headerOptionsText{
+    color: #bddcff;
+    font-size: 45px;
+}

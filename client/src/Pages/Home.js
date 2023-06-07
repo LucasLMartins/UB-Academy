@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { Grid, Text, Image, Button } from '@mantine/core';
+import { Grid, Text } from '@mantine/core';
 import '../styles/home.css';
 import UbHeader from "../Components/Header"
 import Footer from "../Components/Footer";
 import Logo from '../Pages/Images/UBlogo_alpha.png';
 import Banner from '../Pages/Images/Banner.png';
-import api from '../api.js'
-import { useNavigate, useLocation } from "react-router-dom";
+import { api } from '../api.js'
+import { useNavigate } from "react-router-dom";
 
 function Home() {
 
@@ -62,19 +62,19 @@ function Home() {
                         </Text>
                     </Grid>
 
-                    <Grid container justify='center' align='center' style={{ marginBottom: '125px', width: '100%' }}>
+                    <Grid container justify='space-evenly' align='center' style={{ marginBottom: '125px', width: '100%' }}>
                         {
                             courseParams.map((item, i) => (
-                                <Grid key={i} justify='center' style={{ marginRight: '5%', backgroundColor: '#003F88', height: '195px', width: '320px', borderRadius: '25px', cursor: 'pointer', boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'}}>
-                                    <a href="#">
+                                <div key={i} justify='center' style={{ backgroundColor: '#003F88', height: '195px', width: '320px', borderRadius: '25px', cursor: 'pointer', boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'}}>
+                                    <a href={'/curso?id='+item.idCurso+'&category='+item.categoria}>
                                         <div className="home-img-container">
-                                            <img src={'http://localhost:5000/images/' + item.imagemCurso} className="home-item-img"></img>
+                                            <img alt="imagem do curso" src={'http://localhost:5000/images/' + item.imagemCurso} className="home-item-img"></img>
                                         </div>
                                         {/* <Text color={'white'} size={30} weight={500} style={{ margin: 'auto' }}>
                                         Item 1
                                         </Text> */}
                                     </a>
-                                </Grid>
+                                </div>
                             ))
                         }
                     </Grid>
@@ -92,7 +92,7 @@ function Home() {
                     </div>
 
                     <Grid justify='center' style={{ marginTop: '110px', marginBottom: '70px' }}>
-                        <img src={Logo} className='footer-img' height='200px' width='350px'></img>
+                        <img alt="Logo" src={Logo} className='footer-img' height='200px' width='350px'></img>
                     </Grid>
                 </div>
             </Grid>

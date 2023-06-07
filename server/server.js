@@ -8,6 +8,7 @@ const fileUpload = require('express-fileupload')
 app.use(express.json())
 app.use(cors())
 const fs = require('fs');
+const jwt = require('jsonwebtoken')
 
 
 // Configurando arquivos estáticos para acessar no front-end
@@ -82,6 +83,23 @@ app.post('/admin/deleteImage', (req,res) => {
 })
 
 
+//Rota para cadastrar usuário
+app.post("/registerUser", (req,res) => {
+    db.query(`INSERT INTO ubacademy.usuarios(nomeUsuario, emailUsuario, password) VALUES (?,?,?)`,
+    [req.body.nomeUsuario, req.body.emailUsuario, req.body.password], (erro) => {
+        if(erro){
+            res.json([{
+                erro: erro,
+                msg: false
+            }])
+        } else {
+            res.json([{
+                msg: true
+            }])
+        }
+    })
+})
+
 // Rota para verificar o login do admin
 app.post("/admin/loginAdmin", (req,res) => {
     db.query(`SELECT * FROM ubacademy.admin WHERE userAdmin = ? AND senhaAdmin = ?`,
@@ -97,6 +115,27 @@ app.post("/admin/loginAdmin", (req,res) => {
             }else{
                 res.json([{
                     resultado: 'false'
+                }])
+            }
+        }
+    })
+})
+
+app.post("/loginUser", (req,res) => {
+    db.query(`SELECT * FROM ubacademy.usuarios WHERE emailUsuario = ? AND password = ?`,
+    [req.body.email, req.body.password], (erro, resultado) => {
+        if(erro){
+            res.status(200).send('Erro: ' + erro)
+        } else {
+            if(resultado.length > 0){
+                res.json([{
+                    user: resultado[0],
+                    resultado: true,
+                    token: jwt.sign({id: resultado[0].idUsuario}, "D9J37F1LF6AB00V91M2VCZ8DHD003LAS01854BCUJ3009VKSH", {expiresIn: '5d'})
+                }])
+            } else {
+                res.json([{
+                    resultado: false
                 }])
             }
         }
@@ -166,6 +205,7 @@ app.post('/admin/insertLesson', (req,res) => {
     })
 })
 
+// Rota para editar aula no banco de dados
 app.post('/admin/editLesson', (req,res) => {
     db.query(`UPDATE ubacademy.aulas SET tituloAula = ?, video = ?, descricaoAula = ? WHERE idCurso = ? AND idAula = ?`,
     [req.body.titulo, req.body.video, req.body.descricao, req.body.idCurso, req.body.idAula], (erro) => {
@@ -235,25 +275,17 @@ app.post('/aula', (req,res) => {
     })
 })
 
-
-
-app.get('/aula', function(req,res){
-    db.query(`SELECT * FROM ubacademy.aulas`, function(erro, resultadoAula){
+app.post('/perfil', (req,res) => {
+    db.query('SELECT C.idCurso, C.nomeCurso, C.imagemCurso, A.idAula FROM ubacademy.cursos AS C INNER JOIN ubacademy.aulas AS A ON C.idCurso = A.idCurso INNER JOIN ubacademy.usuario_curso AS UC ON C.idCurso = UC.idCurso INNER JOIN ubacademy.usuarios AS U ON UC.idUsuario = U.idUsuario WHERE U.idUsuario = ? GROUP BY C.idCurso',
+    [req.body.idUsuario], (erro, resultado) => {
         if(erro){
-            throw erro;
+            res.status(200).send('Erro: ' + erro)
         }
-        // db.query(`SELECT p.idPedido, p.cpfCliente, i.nomeItem as 'nomeItem', p.idProduto, p.quantidadeProduto, DATE_FORMAT(p.dataPedido, '%d-%m-%Y') as 'data' FROM petshop.pedidos p INNER JOIN petshop.itens i ON p.idProduto = i.idItem`, function(erro,resultadoVendas){
-        //     if(erro){
-        //         throw erro;
-        //     }
-            res.json([{
-                aula: resultadoAula,
-                //vendas: resultadoVendas
-            }])
-        //})
+        res.json([{
+            resultado: resultado
+        }])
     })
 })
-
 
 
 
