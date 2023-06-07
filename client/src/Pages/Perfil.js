@@ -12,7 +12,7 @@ function Perfil() {
     /* eslint-disable */
     const [courseParams, setCourseParams] = useState([])
     const { authenticated, logout } = useContext(AuthContext)
-    let userInfo = JSON.parse(localStorage.getItem("user"))
+    const userInfo = JSON.parse(localStorage.getItem("user"))
 
     useEffect(() => {
         fetchCourses()
@@ -51,6 +51,15 @@ function Perfil() {
         logout()
     }
 
+    function hoverLogout(){
+        document.getElementById('profileLogoutIcon').style.width = '70px'
+        document.getElementById('profileLogoutIcon').style.color = '#bddcff'
+    }
+
+    function noHoverLogout(){
+        document.getElementById('profileLogoutIcon').style.width = '80px'
+        document.getElementById('profileLogoutIcon').style.color = '#ffffff'
+    }
 
     return (
         <div className="page">
@@ -63,7 +72,7 @@ function Perfil() {
                             {userInfo.nomeUsuario}
                         </Text>
                         <div style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '2%', width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <IconLogout onMouseOver={() => document.getElementById('profileLogoutIcon').style.width = '70px'} onMouseOut={() => document.getElementById('profileLogoutIcon').style.width = '80px'} onClick={handleLogout} size={80} style={{ color: "white", cursor: 'pointer', transition: '0.2s' }} id="profileLogoutIcon" />
+                            <IconLogout onMouseOver={() => hoverLogout()} onMouseOut={() => noHoverLogout()} onClick={handleLogout} size={80} style={{ color: "white", cursor: 'pointer', transition: '0.2s' }} id="profileLogoutIcon" />
                         </div>
 
                     </Grid>

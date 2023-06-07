@@ -10,16 +10,23 @@ function Lesson() {
     const [lessonsParams, setLessonsParams] = useState([])
     const [lessonParams, setLessonParams] = useState([])
     const [courseParams, setCourseParams] = useState([])
+    const [auth, setAuth] = useState([])
+
+    const userInfo = JSON.parse(localStorage.getItem("user"))
 
     const navigate = useNavigate();
     const useQuery = () => new URLSearchParams(useLocation().search);
     const query = useQuery();
-    let Aid = query.get('Aid');
-    let Cid = query.get('Cid');
+    const Aid = query.get('Aid');
+    const Cid = query.get('Cid');
 
     useEffect(() => {
         fetchLesson({idAula: Aid, idCurso: Cid})
     }, [Aid, Cid])
+
+    useEffect(() => {
+        authLesson({ idUsuario: userInfo.idUsuario, idCurso: Cid })
+    }, [Cid, userInfo])
 
     async function fetchLesson(id) {
         fetch('http://localhost:5000/aula', {
@@ -37,12 +44,31 @@ function Lesson() {
             })
     }
 
+    async function authLesson(ids){
+        fetch('http://localhost:5000/authAula', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(ids)
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if(data[0].resultado === true){
+                    setAuth(true)
+                }
+                else{
+                    navigate('/perfil')
+                }
+            })
+    }
+
     function selectLesson() {
         document.getElementById('les-lesson'+lessonParams.idAula).style.backgroundColor = 'hsl(0deg 0% 10.2%)'
     }
 
 
-    return (
+    if (auth === true) return (
         <div className="page">
             {/* <Header /> */}
             <div className="les-page-container">
@@ -94,6 +120,12 @@ function Lesson() {
                 </div>
             </div>
 
+        </div>
+    )
+
+    return (
+        <div>
+            <h1> Você não tem acesso à este curso.</h1>
         </div>
     )
 

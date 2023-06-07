@@ -25,6 +25,9 @@ export const AuthProvider = ({children}) => {
         const response = await createSession( email, password )
 
         console.log('login auth', response.data[0])
+        if(response.data[0].resultado === false){
+            window.alert('E-mail ou senha errados, tente novamente.')
+        }
 
         const resultado = response.data[0].resultado
         const loggedUser = response.data[0].user

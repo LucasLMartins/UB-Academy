@@ -35,6 +35,16 @@ export default function UbHeader() {
     document.getElementById('HeaderUserLoginDiv').style.display = 'none';
   }
 
+  function hoverProfile() {
+    document.getElementById('headerProfileIcon').style.width = '80px'
+    document.getElementById('headerProfileIcon').style.color = '#bddcff'
+  }
+
+  function noHoverProfile() {
+    document.getElementById('headerProfileIcon').style.width = '85px'
+    document.getElementById('headerProfileIcon').style.color = 'white'
+  }
+
   return (
     <>
 
@@ -69,7 +79,7 @@ export default function UbHeader() {
           </a>
           <Grid style={{ marginTop: 3, marginLeft: '15%' }}>
             <a href='/perfil' id='iconUserCircle' style={{ height: '85px', width: '85px', display: 'none', justifyContent: 'center', alignItems: 'center'}}>
-              <IconUserCircle id='headerProfileIcon' onMouseOver={() => document.getElementById('headerProfileIcon').style.width = '75px'} onMouseOut={() => document.getElementById('headerProfileIcon').style.width = '85px'} size={85} style={{ color: "white", cursor: 'pointer', transition: '0.2s' }} />
+              <IconUserCircle id='headerProfileIcon' onMouseOver={() => hoverProfile()} onMouseOut={() => noHoverProfile()} size={85} style={{ color: "white", cursor: 'pointer', transition: '0.2s' }} />
             </a>
             
             <div id='HeaderUserLoginDiv' style={{ display: 'flex', alignItems: 'center' }}>

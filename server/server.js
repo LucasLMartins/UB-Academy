@@ -249,6 +249,27 @@ app.post('/curso', (req,res) => {
     })
 })
 
+app.post('/authAula', (req,res) => {
+    db.query(`SELECT C.idCurso, C.nomeCurso, C.imagemCurso, A.idAula FROM ubacademy.cursos AS C INNER JOIN ubacademy.aulas AS A ON C.idCurso = A.idCurso INNER JOIN ubacademy.usuario_curso AS UC ON C.idCurso = UC.idCurso INNER JOIN ubacademy.usuarios AS U ON UC.idUsuario = U.idUsuario WHERE U.idUsuario = ? AND C.idCurso = ? GROUP BY C.idCurso`,
+    [req.body.idUsuario, req.body.idCurso], (erro, resultado) => {
+        if(erro){
+            res.status(200).send('Erro: ' + erro)
+        } else {
+            if (resultado.length > 0){
+                res.json([{
+                    resultado: true
+                }])
+            } else {
+                res.json([{
+                    resultado: false
+                }])
+            }
+            
+        }
+        
+    })
+})
+
 app.post('/aula', (req,res) => {
     db.query('SELECT * FROM ubacademy.aulas WHERE idCurso = ?',
     [req.body.idCurso], (erro, resultadoAulas) => {
