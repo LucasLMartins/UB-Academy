@@ -738,7 +738,7 @@ function Admin() {
                                             <p className="admin-les-info-content">R${lessonsPage.precoCurso},00</p>
                                         </div>
                                         <div className="admin-les-descricaoCurso admin-les-infos" style={{ width: '20%', borderTop: '0', borderRight: '0' }}>
-                                            <p className="admin-les-info-content" style={{ textAlign: 'left' }}>{lessonsPage.descricaoCurso}</p>
+                                            <p className="admin-les-info-content" style={{ textAlign: 'left', padding: '5px 0' }}>{lessonsPage.descricaoCurso}</p>
                                         </div>
                                         <div className="admin-les-skillsCurso admin-les-infos" style={{ width: '20%', borderTop: '0' }}>
                                             <p className="admin-les-info-content">{lessonsPage.skillsCurso}</p>

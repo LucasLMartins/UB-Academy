@@ -241,13 +241,11 @@ ul{
 }
 
 .cs-img-container{
-    border-radius: 0px 0px 0px 0px;
-    display: block;
+    display: flex;
     width: 100%;
     margin: 0 auto;
     overflow: hidden;
     height: 50%;
-    backface-visibility: hidden;
 }
 
 .cs-item-img{
@@ -255,7 +253,6 @@ ul{
     width: 100%;
     object-fit: cover;
     transition: 0.2s ease-out 50ms;
-    backface-visibility: hidden;
 }
 
 .cs-item-name-container{

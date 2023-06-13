@@ -1,3 +1,72 @@
 .ci-main{
-    margin: 150px 12% 100px 12%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.ci-top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #003F88;
+    color: white;
+    padding: 50px 0;
+    margin: 100px 0 0 0;
+    padding: 50px 15%;
+}
+
+.ci-top-left{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.ci-top-right{
+    width: 25%;
+    margin-left: 44%;
+    position: fixed;
+    border-radius: 10px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
+
+.ci-top-right-bottom{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border-radius: 0 0 10px 10px;
+    color: black;
+}
+
+.ci-top-right-bottom-infos{
+    width: 80%;
+    margin-top: 35px;
+    font-size: 22px;
+}
+
+.ci-buy-button{
+    width: 150px;
+}
+
+
+
+.ci-bottom{
+    margin: 50px 15% 100px 15%;
+}
+
+.ci-bottom-title{
+    margin-bottom: 30px;
+    font-size: 25px;
+}
+
+.ci-bottom-lessons-container{
+    border: 2px solid #003F88;
+    border-bottom: 0;
+    border-radius: 0px;
+    width: 60%;
+}
+
+.ci-bottom-lesson-container{
+    border-bottom: 2px solid #003F88;
+    padding: 10px 20px;
+    font-size: 22px;
 }

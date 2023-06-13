@@ -238,14 +238,22 @@ app.get('/cursos', (req,res) => {
 
 // Rota para pegar o curso selecionado pela rota
 app.post('/curso', (req,res) => {
-    db.query(`SELECT * FROM ubacademy.cursos WHERE idCurso = ?`, 
+    db.query(`SELECT C.idCurso, C.nomeCurso, C.categoria, C.precoCurso, C.descricaoCurso, C.imagemCurso, COUNT(A.idAula) AS qnt FROM ubacademy.cursos AS C INNER JOIN ubacademy.aulas AS A ON C.idCurso = A.idCurso WHERE C.idCurso = ?;
+    `, 
     [req.body.idCurso], (erro, resultadoCurso) => {
         if(erro){
             throw erro;
         }
-        res.json([{
-            curso: resultadoCurso
-        }])
+        db.query(`SELECT * FROM ubacademy.aulas WHERE idCurso = ?`,
+        [req.body.idCurso], (erro, resultadoAulas) => {
+            if(erro){
+                throw erro;
+            }
+            res.json([{
+                curso: resultadoCurso,
+                aulas: resultadoAulas
+            }])
+        })
     })
 })
 
