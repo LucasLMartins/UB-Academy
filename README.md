@@ -1,12 +1,12 @@
 # UB-Academy
-Sistema de cursos online desenvolvido como trabalho acadêmico para a faculdade Unibrasil.
+Online course system developed as an academic project for Unibrasil college.
 
-### Principais funcionalidades
+### Main features
 
-- Usuário: Pode criar sua conta e procurar por cursos que lhe interessam, podendo filtrar por categoria/preço, ou utilizando a barra de pesquisa. Após a compra do curso, o usuário pode assistir às aulas disponíveis o quanto quiser.
-- Admin: Pode gerenciar os cursos e aulas (CRUD) e visualizar as compras realizadas, podendo filtrar por curso.
+- User: Can create their account and search for courses that interest them, being able to filter by category/price, or using the search bar. After purchasing the course, the user can watch the available classes as much as they want.
+- Admin: Can manage courses and classes (CRUD) and view purchases made, being able to filter by course.
 
-### Tecnologias utilizadas
+### Technologies
 
 #### Front end:
 - HTML
